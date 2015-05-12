@@ -34,14 +34,7 @@ angular.module('hack.controllers', [])
 })
 
 .controller('TopStoriesCtrl', function($scope, Links) {
-  $scope.playlists = [
-    { title: 'Reggae', id: 1 },
-    { title: 'Chill', id: 2 },
-    { title: 'Dubstep', id: 3 },
-    { title: 'Indie', id: 4 },
-    { title: 'Rap', id: 5 },
-    { title: 'Cowbell', id: 6 }
-  ];
+  $scope.Math = window.Math;
 
   angular.extend($scope, Links);
   $scope.stories = Links.topStories;
@@ -61,7 +54,7 @@ angular.module('hack.controllers', [])
   $scope.loadMore = function() {
     $scope.index = $scope.index + $scope.perPage;
     $scope.$broadcast('scroll.infiniteScrollComplete');
-  }
+  };
 
   $scope.getData();
 })
