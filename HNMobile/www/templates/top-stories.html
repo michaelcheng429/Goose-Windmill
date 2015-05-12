@@ -5,7 +5,12 @@
         {{playlist.title}}
       </ion-item> -->
       <ion-item ng-repeat="story in stories | limitTo: index" href="{{story.url ? story.url : 'https://news.ycombinator.com/item?id=' + story.objectID}}">
-        {{story.title}}
+        {{story.title}}<br>
+        {{story.url.split('/')[2]}}<br>
+        {{story.points}} points<br>
+        {{story.author}}<br>
+        {{story.created_at | fromNow}}<br>
+        {{story.num_comments ? story.num_comments + ' comments' : 'discuss'}}
       </ion-item>
     </ion-list>
   </ion-content>

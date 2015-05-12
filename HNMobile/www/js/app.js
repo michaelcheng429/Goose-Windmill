@@ -71,4 +71,10 @@ angular.module('hack', [
   });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/top-stories');
+})
+
+.filter('fromNow', function(){
+  return function(date){
+    return humanized_time_span(new Date(date));
+  }
 });
