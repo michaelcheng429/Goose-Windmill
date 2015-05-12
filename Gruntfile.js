@@ -64,6 +64,20 @@ module.exports = function(grunt) {
         },    
     },
 
+    karma: {
+      options: {
+        configFile: 'karma.conf.js',
+        reporters: ['progress']
+      },
+      watch: {
+        background: true,
+        reporters: ['progress']
+      },
+      single: {
+        singleRun: true,
+      }
+    },
+
     watch: {
       scripts: {
         files: [
@@ -125,6 +139,7 @@ module.exports = function(grunt) {
    grunt.loadNpmTasks('grunt-run');
    grunt.loadNpmTasks('grunt-services');
    grunt.loadNpmTasks('grunt-open');
+   grunt.loadNpmTasks('grunt-karma');
 
    //To run this function, call the task gitFunctions and pass in the name of the branch that 
    // will be pushed up to github
@@ -154,6 +169,8 @@ module.exports = function(grunt) {
      grunt.task.run([ 'watch' ]);
 
     });
+
+   grunt.registerTask('testClient', ['karma:single']);
 
    //call this task to start the mongo server and the node server
    grunt.registerTask('startApp', [

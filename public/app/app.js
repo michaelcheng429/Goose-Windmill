@@ -1,4 +1,5 @@
 angular.module('hack', [
+  'ngRoute',
   'hack.topStories',
   'hack.personal',
   'hack.currentlyFollowing',
@@ -7,7 +8,6 @@ angular.module('hack', [
   'hack.followService',
   'hack.tabs',
   'hack.auth',
-  'ngRoute'
 ])
 
 .config(function($routeProvider, $httpProvider) {

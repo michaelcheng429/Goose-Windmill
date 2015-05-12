@@ -42,10 +42,20 @@
     "util": "^0.10.3"
   },
   "devDependencies": {
+    "chai": "^2.3.0",
     "grunt-concurrent": "^1.0.0",
+    "grunt-karma": "^0.10.1",
+    "grunt-mocha": "^0.4.12",
     "grunt-open": "^0.2.3",
     "grunt-run": "^0.3.0",
     "grunt-services": "^0.1.0",
-    "grunt-shell-spawn": "^0.3.8"
+    "grunt-shell-spawn": "^0.3.8",
+    "karma": "^0.12.31",
+    "karma-chai": "^0.1.0",
+    "karma-chrome-launcher": "^0.1.10",
+    "karma-mocha": "^0.1.10",
+    "karma-requirejs": "^0.2.2",
+    "mocha": "^2.2.4",
+    "requirejs": "^2.1.17"
   }
 }
