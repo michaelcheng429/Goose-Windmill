@@ -47,7 +47,7 @@ describe("AuthController tests", function() {
     expect($scope.logout).to.be.a('function');
   });
 
-  it('should store username in localStorage after signup', function() {
+  it('should store username and token in localStorage after signup', function() {
     // create a fake JWT for auth
     var token = 'sjj232hwjhr3urw90rof';
 
@@ -60,7 +60,7 @@ describe("AuthController tests", function() {
     expect($window.localStorage.getItem('com.hack')).to.equal(token);
   });
 
-  it('should store username in localStorage after signin', function() {
+  it('should store username, token, and followers in localStorage after signin', function() {
     // create a fake JWT for auth
     var token = 'sjj232hwjhr3urw90rof';
     var followers = ['user1', 'user2'];
