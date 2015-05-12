@@ -1,4 +1,5 @@
 var User = require('./userModel.js');
+var jwt = require('jwt-simple');
 
 module.exports = {
   //Handles new user account generation
