@@ -10,7 +10,7 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ['mocha', 'requirejs', 'chai'],
+    frameworks: ['mocha', 'requirejs', 'chai', 'sinon'],
 
 
     // list of files / patterns to load in the browser
@@ -19,10 +19,10 @@ module.exports = function(config) {
       'public/lib/angular.js',
       'public/lib/angular-mocks.js',
       'public/lib/angular-route.min.js',
-      'public/lib/underscore.min.js',
+      'public/lib/underscore-min.js',
       {pattern: 'public/app/*.js', included: true},
       {pattern: 'public/app/**/*.js', included: true},
-      {pattern: 'test/*.js', included: false}
+      {pattern: 'test/**/*.js', included: false}
     ],
 
 
@@ -40,7 +40,7 @@ module.exports = function(config) {
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ['progress'],
+    reporters: ['mocha'],
 
 
     // web server port
@@ -74,7 +74,9 @@ module.exports = function(config) {
       'karma-mocha',
       'karma-chai',
       'karma-requirejs',
-      'karma-chrome-launcher'
+      'karma-sinon',
+      'karma-chrome-launcher',
+      'karma-mocha-reporter'
     ]
   });
 };
