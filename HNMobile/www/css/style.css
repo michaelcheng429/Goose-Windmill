@@ -1,1 +1,13 @@
 /* Empty. Add your own CSS if you like */
+
+.points-bar {
+  background: #D8D8D8;
+  /*background: black;*/
+  height: 8px;
+  /*position: absolute;*/
+  /*box-sizing: border-box;*/
+  /*right: 100%;*/
+  /*margin-right: 10px;*/
+  /*top: 10px;*/
+  max-width: 133px;
+} 

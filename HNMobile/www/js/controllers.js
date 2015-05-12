@@ -45,7 +45,7 @@ angular.module('hack.controllers', [])
 
   angular.extend($scope, Links);
   $scope.stories = Links.topStories;
-  $scope.perPage = 30;
+  $scope.perPage = 15;
   $scope.index = $scope.perPage;
 
   // $scope.currentlyFollowing = Followers.following;
@@ -57,6 +57,11 @@ angular.module('hack.controllers', [])
   $scope.addUser = function(username) {
     Followers.addFollower(username);
   };
+
+  $scope.loadMore = function() {
+    $scope.index = $scope.index + $scope.perPage;
+    $scope.$broadcast('scroll.infiniteScrollComplete');
+  }
 
   $scope.getData();
 })
