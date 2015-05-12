@@ -4,7 +4,7 @@
       <!-- <ion-item ng-repeat="playlist in playlists" href="#/app/playlists/{{playlist.id}}">
         {{playlist.title}}
       </ion-item> -->
-      <ion-item ng-repeat="story in stories | limitTo: index">
+      <ion-item ng-repeat="story in stories | limitTo: index" href="{{story.url ? story.url : 'https://news.ycombinator.com/item?id=' + story.objectID}}">
         {{story.title}}
       </ion-item>
     </ion-list>
