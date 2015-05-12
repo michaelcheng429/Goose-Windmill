@@ -5,7 +5,7 @@ angular.module('hack.linkService', [])
   var topStories = [];
 
   var getTopStories = function() {
-    var url = '/api/cache/topStories'
+    var url = 'http://hnmobileapp.herokuapp.com/api/cache/topStories';
 
     return $http({
       method: 'GET',
