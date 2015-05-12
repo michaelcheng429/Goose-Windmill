@@ -32,6 +32,13 @@ body {
 
 .item .story-author {
   clear: both;
+  float: left;
+  font-size: 15px;
+}
+
+.item .story-comments {
+  float: right;
+  color: #0079B2;
 }
 
 .points-bar {

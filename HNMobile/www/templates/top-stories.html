@@ -11,9 +11,10 @@
         <div class="score-container">
           {{story.points}} points | {{story.created_at | fromNow}} &rarr; Score: <span class="score">{{Math.round(((story.points - 1) / Math.pow(((story.created_at | fromNow).split(' ')[0] + 2), 1.8)) * 1000)}}</span><br>
         </div>
-        <div class="story-author">{{story.author}}</div>
-        <br>
-        {{story.num_comments ? story.num_comments + ' comments' : 'discuss'}}
+        <div class="story-author">by {{story.author}}</div>
+        <a href="https://news.ycombinator.com/item?id={{story.objectID}}" target="_top" class="story-comments">
+          {{story.num_comments ? story.num_comments + ' comments' : 'discuss'}}
+        </a>
       </ion-item>
     </ion-list>
 
