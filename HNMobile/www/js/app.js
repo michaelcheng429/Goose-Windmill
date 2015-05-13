@@ -6,7 +6,8 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('hack', [
   'ionic',
-  'hack.linkService', 
+  'hack.linkService',
+  'hack.followService',
   'hack.controllers'])
 
 .run(function($ionicPlatform) {
