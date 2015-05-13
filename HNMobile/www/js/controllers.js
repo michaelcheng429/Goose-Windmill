@@ -61,6 +61,8 @@ angular.module('hack.controllers', [])
 
 .controller('PersonalCtrl', function($scope, Links, Followers) {
 
+  $scope.Math = window.Math;
+
   $scope.stories = Links.personalStories;
   $scope.users = Followers.following;
   $scope.perPage = 30;
