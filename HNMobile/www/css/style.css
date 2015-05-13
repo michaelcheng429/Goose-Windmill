@@ -21,7 +21,7 @@ body {
   float: right;
   color: #908D91;
   font-size: 10px;
-  margin-top: -8px;
+  margin-top: -6px;
 }
 
 .item .score {
@@ -33,11 +33,14 @@ body {
 .item .story-author {
   clear: both;
   float: left;
-  font-size: 15px;
+  font-size: 13px;
+  margin-top: -20px;
 }
 
 .item .story-comments {
-  float: right;
+  float: left;
+  text-align: center;
+  font-size: 14px;
   color: #0079B2;
 }
 
