@@ -1,22 +1,22 @@
 module.exports = function(grunt) {
 
   grunt.initConfig({
-   pkg: grunt.file.readJSON('package.json'),
-     concat: {
-      dist: {
-        files: {
-          'public/dist/production.js': 
-             ['public/app/services/**.js',
-              'public/app/auth/auth.js',
-              'public/app/currentlyFollowing/currentlyFollowing.js',
-              'public/app/personal/personal.js',
-              'public/app/tabs/tabs.js',
-              'public/app/topStories/topStories.js',
-              'public/app/app.js'],
-          'public/dist/production.css': ['public/styles/*.css']
-       },
-     }
-       },
+    pkg: grunt.file.readJSON('package.json'),
+      concat: {
+       dist: {
+         files: {
+           'public/dist/production.js': 
+              ['public/app/services/**.js',
+               'public/app/auth/auth.js',
+               'public/app/currentlyFollowing/currentlyFollowing.js',
+               'public/app/personal/personal.js',
+               'public/app/tabs/tabs.js',
+               'public/app/topStories/topStories.js',
+               'public/app/app.js'],
+           'public/dist/production.css': ['public/styles/*.css']
+        },
+      }
+    },
 
     nodemon: {
       dev: {
