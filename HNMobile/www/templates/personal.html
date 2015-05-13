@@ -2,8 +2,10 @@
   <ion-content>
     <div class="following-list">
     <h2>Following:</h2>
-    <div ng-repeat="user in currentlyFollowing">
-      {{user}} <span ng-click="unfollow(user);">x</span>
+    <div class="following-list-users">
+      <span ng-repeat="user in currentlyFollowing" class="following-list-user">
+        {{user}} <span ng-click="unfollow(user);" class="user-x">x</span>
+      </span>
     </div>
     </div>
     <ion-list>

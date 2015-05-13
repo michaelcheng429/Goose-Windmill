@@ -2,17 +2,7 @@
   <ion-content>
     <ion-list>
       <ion-item ng-repeat="story in stories | limitTo: index" style="background: ">
-        <h2 class="story-title"><a href="{{story.url ? story.url : 'https://news.ycombinator.com/item?id=' + story.objectID}}" class="story-title-link">{{story.title}}</a></h2>
-        <div class="story-url">{{story.url.split('/')[2]}}</div>
-        <div class="points-bar" style="width:{{Math.round(((story.points - 1) / Math.pow(((story.created_at | fromNow).split(' ')[0] + 2), 1.8)) * 1000) * .35}}px;"></div>
-        <div class="score-container">
-          {{story.points}} points | {{story.created_at | fromNow}} &rarr; Score: <span class="score">{{Math.round(((story.points - 1) / Math.pow(((story.created_at | fromNow).split(' ')[0] + 2), 1.8)) * 1000)}}</span><br>
-        </div>
-        <div class="story-author">by {{story.author}}</div>
-        <div class="follow-author" ng-show="currentlyFollowing.indexOf(story.author) === -1" ng-click="addUser(story.author)">Follow {{story.author}}</div>
-        <a href="https://news.ycombinator.com/item?id={{story.objectID}}" target="_top" class="story-comments">
-          {{story.num_comments ? story.num_comments + ' comments' : 'discuss'}}
-        </a>
+        <div ng-include="'js/partials/story.html'"></div>
       </ion-item>
     </ion-list>
 

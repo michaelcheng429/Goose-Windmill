@@ -49,6 +49,7 @@ body {
   padding: 0 3px;
   border: 1px solid #908D91;
   border-radius: 4px;
+  cursor: pointer;
 }
 
 .item .story-comments {
@@ -66,6 +67,39 @@ body {
 } 
 
 /* PERSONAL SECTION */
+
+.following-list {
+  text-align: center;
+  background: #404040;
+  color: #FFF;
+  padding-top: 7px;
+  padding-bottom: 10px;
+}
+
+.following-list h2 {
+  font-size: 15px;
+  color: #FFF;
+}
+
+.following-list-users {
+  line-height: 1.6em;
+  width: 280px;
+  margin: 0 auto;
+}
+
+.following-list-user {
+  background: #FFF;
+  color: #000;
+  margin: 0 5px;
+  padding: 0 4px;
+  border-radius: 3px;
+}
+
+.user-x {
+  color: #F43B44;
+  font-size: 15px;
+  font-weight: bold;
+}
 
 .item .comment {
   white-space: normal;
