@@ -18,6 +18,9 @@ angular.module('hack.controllers', [])
 
   $scope.currentlyFollowing = Followers.following;
 
+  var storiesCopy = $scope.stories.slice();
+  $scope.storiesMostPoints = storiesCopy;
+
   $scope.getData = function() {
     Links.getTopStories();
   };
@@ -96,5 +99,87 @@ angular.module('hack.controllers', [])
   $scope.loadMore = function() {
     $scope.index = $scope.index + $scope.perPage;
     $scope.$broadcast('scroll.infiniteScrollComplete');
-  }
+  };
+})
+
+.controller('MostPointsCtrl', function($scope, Links, Followers) {
+  $scope.Math = window.Math;
+
+  angular.extend($scope, Links);
+  $scope.stories = Links.topStories;
+  $scope.perPage = 5;
+  $scope.index = $scope.perPage;
+
+  $scope.currentlyFollowing = Followers.following;
+
+  $scope.storiesMostPoints = $scope.stories.slice().sort(function(a,b) {
+    return b.points - a.points;
+  });
+
+  $scope.getData = function() {
+    Links.getTopStories();
+  };
+  
+  $scope.addUser = function(username) {
+    Followers.addFollower(username);
+  };
+
+  $scope.loadMore = function() {
+    $scope.index = $scope.index + $scope.perPage;
+    $scope.$broadcast('scroll.infiniteScrollComplete');
+  };
+
+  $scope.openUrl = function(url, objectID) {
+    var link = url ? url : 'https://news.ycombinator.com/item?id=' + objectID;
+    window.open(link, 'system', 'location=yes');
+    return false;
+  };
+
+  $scope.loadComments = function(storyID) {
+    Links.getComments(storyID);
+    console.log(Links.comments);
+  };
+
+  $scope.getData();
+})
+
+.controller('MostCommentsCtrl', function($scope, Links, Followers) {
+  $scope.Math = window.Math;
+
+  angular.extend($scope, Links);
+  $scope.stories = Links.topStories;
+  $scope.perPage = 5;
+  $scope.index = $scope.perPage;
+
+  $scope.currentlyFollowing = Followers.following;
+
+  $scope.storiesMostPoints = $scope.stories.slice().sort(function(a,b) {
+    return b.num_comments - a.num_comments;
+  });
+
+  $scope.getData = function() {
+    Links.getTopStories();
+  };
+  
+  $scope.addUser = function(username) {
+    Followers.addFollower(username);
+  };
+
+  $scope.loadMore = function() {
+    $scope.index = $scope.index + $scope.perPage;
+    $scope.$broadcast('scroll.infiniteScrollComplete');
+  };
+
+  $scope.openUrl = function(url, objectID) {
+    var link = url ? url : 'https://news.ycombinator.com/item?id=' + objectID;
+    window.open(link, 'system', 'location=yes');
+    return false;
+  };
+
+  $scope.loadComments = function(storyID) {
+    Links.getComments(storyID);
+    console.log(Links.comments);
+  };
+
+  $scope.getData();
 });

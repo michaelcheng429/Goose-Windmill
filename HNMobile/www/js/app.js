@@ -54,6 +54,26 @@ angular.module('hack', [
     }
   })
 
+  .state('app.mostPoints', {
+    url: "/most-points",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/most-points.html",
+        controller: 'MostPointsCtrl'
+      }
+    }
+  })
+
+  .state('app.mostComments', {
+    url: "/most-comments",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/most-comments.html",
+        controller: 'MostCommentsCtrl'
+      }
+    }
+  })
+
   .state('app.personal', {
     url: "/personal",
     views: {
