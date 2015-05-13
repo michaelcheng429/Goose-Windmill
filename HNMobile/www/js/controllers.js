@@ -82,5 +82,13 @@ angular.module('hack.controllers', [])
 })
 
 .controller('CommentsCtrl', function($scope, Links) {
+  $scope.perPage = 3;
+  $scope.index = $scope.perPage;
+
   $scope.comments = Links.comments;
+
+  $scope.loadMore = function() {
+    $scope.index = $scope.index + $scope.perPage;
+    $scope.$broadcast('scroll.infiniteScrollComplete');
+  }
 });
