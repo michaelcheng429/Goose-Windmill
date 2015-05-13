@@ -45,6 +45,8 @@ angular.module('hack.controllers', [])
 
   $scope.getData = function() {
     Links.getTopStories();
+
+    $scope.$broadcast('scroll.refreshComplete');
   };
   
   $scope.addUser = function(username) {
