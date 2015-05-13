@@ -6,7 +6,7 @@
     </ion-refresher>
 
     <ion-list>
-      <ion-item ng-repeat="story in storiesMostPoints | limitTo: index | orderBy: '-points'">
+      <ion-item ng-repeat="story in storiesMostPoints | limitTo: index">
         <div ng-include="'js/partials/story.html'"></div>
       </ion-item>
     </ion-list>

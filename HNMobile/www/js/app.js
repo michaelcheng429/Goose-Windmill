@@ -74,6 +74,16 @@ angular.module('hack', [
     }
   })
 
+  .state('app.mostRecent', {
+    url: "/most-recent",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/most-recent.html",
+        controller: 'MostRecentCtrl'
+      }
+    }
+  })
+
   .state('app.personal', {
     url: "/personal",
     views: {
