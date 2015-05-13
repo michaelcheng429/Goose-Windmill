@@ -126,3 +126,23 @@ body {
 .add-a-comment {
   color: #0079B2;
 }
+
+/* COMMENTS PAGE */
+
+.comment-story-title-container {
+  background: #FF8C00;
+  color: #FFF;
+  font-size: 15px;
+  padding: 8px 20px 11px 20px;
+  text-align: center;
+}
+
+.comment-story-title {
+  color: #000;
+  font-size: 19px;
+}
+
+.comments-link {
+  color: #0079B2;
+  font-size: 13px;
+}

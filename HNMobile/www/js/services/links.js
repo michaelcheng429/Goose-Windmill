@@ -3,6 +3,7 @@ angular.module('hack.linkService', [])
 .factory('Links', function($http, $interval/*, Followers*/) {
   var personalStories = [];
   var topStories = [];
+  var comments = [];
 
   var getTopStories = function() {
     var url = 'http://hnmobileapp.herokuapp.com/api/cache/topStories';
@@ -48,6 +49,24 @@ angular.module('hack.linkService', [])
     });
   };
 
+  var getComments = function(storyID) {
+    var query = 'http://hn.algolia.com/api/v1/search?hitsPerPage=500&tags=comment,story_' + storyID;
+
+    return $http({
+      method: 'GET',
+      url: query
+    })
+    .then(function(resp) {
+
+      console.log(resp.data)
+      // Very important to not point comments to a new array.
+      // Instead, clear out the array, then push all the new
+      // datum in place. There are pointers pointing to this array.
+      comments.splice(0, comments.length);
+      comments.push.apply(comments, resp.data.hits);
+    });
+  };
+
   var arrToCSV = function(arr){
     var holder = [];
 
@@ -72,8 +91,10 @@ angular.module('hack.linkService', [])
   return {
     getTopStories: getTopStories,
     getPersonalStories: getPersonalStories,
+    getComments: getComments,
     personalStories: personalStories,
-    topStories: topStories
+    topStories: topStories,
+    comments: comments
   };
 });
 

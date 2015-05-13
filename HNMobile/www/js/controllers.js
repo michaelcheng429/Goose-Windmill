@@ -1,36 +1,11 @@
 angular.module('hack.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
-  // Form data for the login modal
-  $scope.loginData = {};
+.controller('AppCtrl', function($scope, Links, Followers) {
+  $scope.users = Followers.following;
 
-  // Create the login modal that we will use later
-  $ionicModal.fromTemplateUrl('templates/login.html', {
-    scope: $scope
-  }).then(function(modal) {
-    $scope.modal = modal;
-  });
-
-  // Triggered in the login modal to close it
-  $scope.closeLogin = function() {
-    $scope.modal.hide();
-  };
-
-  // Open the login modal
-  $scope.login = function() {
-    $scope.modal.show();
-  };
-
-  // Perform the login action when the user submits the login form
-  $scope.doLogin = function() {
-    console.log('Doing login', $scope.loginData);
-
-    // Simulate a login delay. Remove this and replace with your login
-    // code if using a login system
-    $timeout(function() {
-      $scope.closeLogin();
-    }, 1000);
-  };
+  $scope.updatePersonal = function() {
+    Links.getPersonalStories($scope.users);
+  }
 })
 
 .controller('TopStoriesCtrl', function($scope, Links, Followers) {
@@ -43,8 +18,13 @@ angular.module('hack.controllers', [])
 
   $scope.currentlyFollowing = Followers.following;
 
+  var storiesCopy = $scope.stories.slice();
+  $scope.storiesMostPoints = storiesCopy;
+
   $scope.getData = function() {
     Links.getTopStories();
+    $scope.$broadcast('scroll.refreshComplete');
+    $scope.$broadcast('scroll.refreshComplete');
   };
   
   $scope.addUser = function(username) {
@@ -54,6 +34,17 @@ angular.module('hack.controllers', [])
   $scope.loadMore = function() {
     $scope.index = $scope.index + $scope.perPage;
     $scope.$broadcast('scroll.infiniteScrollComplete');
+  };
+
+  $scope.openUrl = function(url, objectID) {
+    var link = url ? url : 'https://news.ycombinator.com/item?id=' + objectID;
+    window.open(link, 'system', 'location=yes');
+    return false;
+  };
+
+  $scope.loadComments = function(storyID) {
+    Links.getComments(storyID);
+    console.log(Links.comments);
   };
 
   $scope.getData();
@@ -86,6 +77,7 @@ angular.module('hack.controllers', [])
 
   $scope.unfollow = function(user){
     Followers.removeFollower(user);
+    Links.getPersonalStories($scope.users);
   };
 
   $scope.follow = function(user){
@@ -100,5 +92,140 @@ angular.module('hack.controllers', [])
 
 })
 
-.controller('PlaylistCtrl', function($scope, $stateParams) {
+.controller('CommentsCtrl', function($scope, Links) {
+  $scope.perPage = 3;
+  $scope.index = $scope.perPage;
+
+  $scope.comments = Links.comments;
+
+  $scope.loadMore = function() {
+    $scope.index = $scope.index + $scope.perPage;
+    $scope.$broadcast('scroll.infiniteScrollComplete');
+  };
+})
+
+.controller('MostPointsCtrl', function($scope, Links, Followers) {
+  $scope.Math = window.Math;
+
+  angular.extend($scope, Links);
+  $scope.stories = Links.topStories;
+  $scope.perPage = 5;
+  $scope.index = $scope.perPage;
+
+  $scope.currentlyFollowing = Followers.following;
+
+  $scope.storiesMostPoints = $scope.stories.slice().sort(function(a,b) {
+    return b.points - a.points;
+  });
+
+  $scope.getData = function() {
+    Links.getTopStories();
+    $scope.$broadcast('scroll.refreshComplete');
+  };
+  
+  $scope.addUser = function(username) {
+    Followers.addFollower(username);
+  };
+
+  $scope.loadMore = function() {
+    $scope.index = $scope.index + $scope.perPage;
+    $scope.$broadcast('scroll.infiniteScrollComplete');
+  };
+
+  $scope.openUrl = function(url, objectID) {
+    var link = url ? url : 'https://news.ycombinator.com/item?id=' + objectID;
+    window.open(link, 'system', 'location=yes');
+    return false;
+  };
+
+  $scope.loadComments = function(storyID) {
+    Links.getComments(storyID);
+    console.log(Links.comments);
+  };
+
+  $scope.getData();
+})
+
+.controller('MostCommentsCtrl', function($scope, Links, Followers) {
+  $scope.Math = window.Math;
+
+  angular.extend($scope, Links);
+  $scope.stories = Links.topStories;
+  $scope.perPage = 5;
+  $scope.index = $scope.perPage;
+
+  $scope.currentlyFollowing = Followers.following;
+
+  $scope.storiesMostComments = $scope.stories.slice().sort(function(a,b) {
+    return b.num_comments - a.num_comments;
+  });
+
+  $scope.getData = function() {
+    Links.getTopStories();
+    $scope.$broadcast('scroll.refreshComplete');
+  };
+  
+  $scope.addUser = function(username) {
+    Followers.addFollower(username);
+  };
+
+  $scope.loadMore = function() {
+    $scope.index = $scope.index + $scope.perPage;
+    $scope.$broadcast('scroll.infiniteScrollComplete');
+  };
+
+  $scope.openUrl = function(url, objectID) {
+    var link = url ? url : 'https://news.ycombinator.com/item?id=' + objectID;
+    window.open(link, 'system', 'location=yes');
+    return false;
+  };
+
+  $scope.loadComments = function(storyID) {
+    Links.getComments(storyID);
+    console.log(Links.comments);
+  };
+
+  $scope.getData();
+})
+
+.controller('MostRecentCtrl', function($scope, $filter, Links, Followers) {
+  $scope.Math = window.Math;
+
+  angular.extend($scope, Links);
+  $scope.stories = Links.topStories;
+  $scope.perPage = 5;
+  $scope.index = $scope.perPage;
+
+  $scope.currentlyFollowing = Followers.following;
+
+  $scope.storiesMostRecent = $scope.stories.slice().sort(function(a,b) {
+    return new Date(b.created_at) - new Date(a.created_at);
+  });
+
+  $scope.getData = function() {
+    Links.getTopStories();
+    $scope.$broadcast('scroll.refreshComplete');
+  };
+  
+  $scope.addUser = function(username) {
+    Followers.addFollower(username);
+  };
+
+  $scope.loadMore = function() {
+    $scope.index = $scope.index + $scope.perPage;
+    $scope.$broadcast('scroll.infiniteScrollComplete');
+  };
+
+  $scope.openUrl = function(url, objectID) {
+    var link = url ? url : 'https://news.ycombinator.com/item?id=' + objectID;
+    window.open(link, 'system', 'location=yes');
+    return false;
+  };
+
+  $scope.loadComments = function(storyID) {
+    Links.getComments(storyID);
+    console.log(Links.comments);
+  };
+
+  $scope.getData();
 });

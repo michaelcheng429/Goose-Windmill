@@ -1,4 +1,4 @@
-<ion-view view-title="Hacker News Top Stories">
+<ion-view view-title="Hacker News Most Recent">
   <ion-content>
     <ion-refresher
       pulling-text="Pull to refresh..."
@@ -6,7 +6,7 @@
     </ion-refresher>
 
     <ion-list>
-      <ion-item ng-repeat="story in stories | limitTo: index">
+      <ion-item ng-repeat="story in storiesMostRecent | limitTo: index">
         <div ng-include="'js/partials/story.html'"></div>
       </ion-item>
     </ion-list>

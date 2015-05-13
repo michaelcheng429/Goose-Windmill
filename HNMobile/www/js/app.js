@@ -34,11 +34,52 @@ angular.module('hack', [
     controller: 'AppCtrl'
   })
 
-  .state('app.search', {
-    url: "/search",
+  .state('app.topStories', {
+    url: "/top-stories",
     views: {
       'menuContent': {
-        templateUrl: "templates/search.html"
+        templateUrl: "templates/top-stories.html",
+        controller: 'TopStoriesCtrl'
+      }
+    }
+  })
+
+  .state('app.comments', {
+    url: "/comments/:storyId",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/comments.html",
+        controller: 'CommentsCtrl'
+      }
+    }
+  })
+
+  .state('app.mostPoints', {
+    url: "/most-points",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/most-points.html",
+        controller: 'MostPointsCtrl'
+      }
+    }
+  })
+
+  .state('app.mostComments', {
+    url: "/most-comments",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/most-comments.html",
+        controller: 'MostCommentsCtrl'
+      }
+    }
+  })
+
+  .state('app.mostRecent', {
+    url: "/most-recent",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/most-recent.html",
+        controller: 'MostRecentCtrl'
       }
     }
   })
@@ -52,25 +93,16 @@ angular.module('hack', [
       }
     }
   })
-    .state('app.topStories', {
-      url: "/top-stories",
-      views: {
-        'menuContent': {
-          templateUrl: "templates/top-stories.html",
-          controller: 'TopStoriesCtrl'
-        }
-      }
-    })
 
-  .state('app.single', {
-    url: "/top-stories/:playlistId",
+  .state('app.about', {
+    url: "/about",
     views: {
       'menuContent': {
-        templateUrl: "templates/playlist.html",
-        controller: 'PlaylistCtrl'
+        templateUrl: "templates/about.html",
       }
     }
-  });
+  })
+
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/top-stories');
 })
