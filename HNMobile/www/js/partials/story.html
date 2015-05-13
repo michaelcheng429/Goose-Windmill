@@ -5,10 +5,10 @@
 
 <div class="story-url">{{story.url.split('/')[2]}}</div>
 
-<div class="points-bar" style="width:{{Math.round(((story.points - 1) / Math.pow(((story.created_at | fromNow).split(' ')[0] + 2), 1.8)) * 1000) * .35}}px;"></div>
+<div class="points-bar" style="width:{{(story.created_at | fromNow).split(' ')[1] === 'hours' ? Math.round(((story.points - 1) / Math.pow(((story.created_at | fromNow).split(' ')[0] + 2), 1.8)) * 1000) * .55 : (story.created_at | fromNow).split(' ')[1] === 'minutes' ? Math.round(((story.points - 1) / Math.pow((9 + 2), 1.8)) * 1000) * .55 : Math.round(((story.points - 1) / Math.pow(((story.created_at | fromNow).split(' ')[0] * 60 + 2), 1.8)) * 1000) * .55}}px;"></div>
 
 <div class="score-container">
-  {{story.points}} points | {{story.created_at | fromNow}} &rarr; Score: <span class="score">{{Math.round(((story.points - 1) / Math.pow(((story.created_at | fromNow).split(' ')[0] + 2), 1.8)) * 1000)}}</span><br>
+  {{story.points}} points | {{story.created_at | fromNow}} &rarr; Score: <span class="score">{{(story.created_at | fromNow).split(' ')[1] === 'hours' ? Math.round(((story.points - 1) / Math.pow(((story.created_at | fromNow).split(' ')[0] + 2), 1.8)) * 1000) : (story.created_at | fromNow).split(' ')[1] === 'minutes' ? Math.round(((story.points - 1) / Math.pow((9 + 2), 1.8)) * 1000) : Math.round(((story.points - 1) / Math.pow(((story.created_at | fromNow).split(' ')[0] * 60 + 2), 1.8)) * 1000)}}</span><br>
 </div>
 
 <div class="story-author">by {{story.author}}</div>
