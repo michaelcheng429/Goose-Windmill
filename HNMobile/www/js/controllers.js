@@ -38,7 +38,7 @@ angular.module('hack.controllers', [])
 
   $scope.openUrl = function(url, objectID) {
     var link = url ? url : 'https://news.ycombinator.com/item?id=' + objectID;
-    window.open(link, 'system', 'location=yes');
+    window.open(link, '_system', 'location=yes');
     return false;
   };
 
