@@ -6,7 +6,8 @@
 // 'starter.controllers' is found in controllers.js
 angular.module('hack', [
   'ionic',
-  'hack.linkService', 
+  'hack.linkService',
+  'hack.followService',
   'hack.controllers'])
 
 .run(function($ionicPlatform) {
@@ -42,11 +43,12 @@ angular.module('hack', [
     }
   })
 
-  .state('app.browse', {
-    url: "/browse",
+  .state('app.personal', {
+    url: "/personal",
     views: {
       'menuContent': {
-        templateUrl: "templates/browse.html"
+        templateUrl: "templates/personal.html",
+        controller: 'PersonalCtrl'
       }
     }
   })
@@ -77,4 +79,10 @@ angular.module('hack', [
   return function(date){
     return humanized_time_span(new Date(date));
   }
-});
+})
+
+.filter('htmlsafe', ['$sce', function ($sce) { 
+  return function (text) {
+    return $sce.trustAsHtml(text);
+  };    
+}]);
