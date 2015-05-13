@@ -44,7 +44,7 @@ body {
 
 .item .follow-author {
   float: left;
-  background: #F2ECF3;
+  background: #ECECEC;
   font-size: 10px;
   padding: 0 3px;
   border: 1px solid #908D91;
@@ -101,7 +101,27 @@ body {
   font-weight: bold;
 }
 
-.item .comment {
+.comment {
   white-space: normal;
-  background: #F2F2F2;
+  text-align: center;
+}
+
+.comment-meta {
+  font-size: 13px;
+}
+
+.comment-text {
+  background: #EBEBEB;
+  font-size: 14px;
+  width: 300px;
+  margin: 0 auto;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 10px;
+  border: 1px solid #A5A5A5;
+  border-radius: 15px;
+}
+
+.add-a-comment {
+  color: #0079B2;
 }
