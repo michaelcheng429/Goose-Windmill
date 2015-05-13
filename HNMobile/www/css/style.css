@@ -5,8 +5,13 @@ body {
 }
 
 .item .story-title {
+  white-space: normal;
   font-size: 17px;
   font-weight: bold;
+}
+
+.item .story-title-link {
+  color: #0079B2;
 }
 
 .item .story-url {
@@ -37,8 +42,17 @@ body {
   margin-top: -20px;
 }
 
-.item .story-comments {
+.item .follow-author {
   float: left;
+  background: #F2ECF3;
+  font-size: 10px;
+  padding: 0 3px;
+  border: 1px solid #908D91;
+  border-radius: 4px;
+}
+
+.item .story-comments {
+  float: right;
   text-align: center;
   font-size: 14px;
   color: #0079B2;
