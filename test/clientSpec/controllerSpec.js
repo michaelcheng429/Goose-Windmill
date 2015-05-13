@@ -56,7 +56,6 @@ describe("AuthController tests", function() {
     $scope.newUser = {username: 'testUser'};
     $scope.signup();
     $httpBackend.flush();
-    expect($window.localStorage.getItem('com.hack.userId')).to.equal('testUser');
     expect($window.localStorage.getItem('com.hack')).to.equal(token);
   });
 
@@ -70,7 +69,6 @@ describe("AuthController tests", function() {
     $scope.user = {username: 'testUser'};
     $scope.signin();
     $httpBackend.flush();
-    expect($window.localStorage.getItem('com.hack.userId')).to.equal('testUser');
     expect($window.localStorage.getItem('com.hack')).to.equal(token);
     expect($window.localStorage.getItem('hfUsers')).to.equal('user1,user2');
   });
@@ -93,6 +91,19 @@ describe("AuthController tests", function() {
 describe("CurrentlyFollowingController tests", function() {
    beforeEach(module('hack'));
 
+   var following = [];
+
+   beforeEach(module({
+    Followers: {
+      addFollower: function(user) {
+        following.push(user);
+      },
+      removeFollower: function(user) {
+        following = [];
+      }
+    }
+   }));
+
    var $controller;
 
    beforeEach(inject(function(_$controller_){
@@ -105,8 +116,11 @@ describe("CurrentlyFollowingController tests", function() {
     it('sets $scope.newFollow to empty string', function() {
       var $scope = {};
       var controller = $controller('CurrentlyFollowingController', {$scope: $scope});
-      $scope.follow();
+      $scope.follow('x');
       expect($scope.newFollow).to.equal("");
+      expect(following).to.deep.equal(["x"]);
+      $scope.unfollow('x');
+      expect(following).to.deep.equal([]);
     });
    });
 });
@@ -115,6 +129,16 @@ describe("CurrentlyFollowingController tests", function() {
 describe("PersonalController tests", function() {
   beforeEach(module('hack'));
 
+   var following = [];
+
+   beforeEach(module({
+    Links: {
+      getPersonalStories: function(users) {
+        following = users;
+      }
+    }
+   }));
+
   beforeEach(inject(function($injector) {
 
     // mock out our dependencies
@@ -122,7 +146,6 @@ describe("PersonalController tests", function() {
     $location = $injector.get('$location');
     $window = $injector.get('$window');
     $httpBackend = $injector.get('$httpBackend');
-    Links = $injector.get('Links');
     Followers = $injector.get('Followers');
     $scope = $rootScope.$new();
 
@@ -134,7 +157,6 @@ describe("PersonalController tests", function() {
         $scope: $scope,
         $window: $window,
         $location: $location,
-        Links: Links,
         Followers: Followers
       });
     };
@@ -143,7 +165,7 @@ describe("PersonalController tests", function() {
   }));
 
   it('should call fetchUsers() when controller is loaded', function () {
-    // need a spy here
     createController();
+    expect(following).to.deep.equal(['pg','sama']);
   });
 });

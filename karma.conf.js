@@ -19,6 +19,7 @@ module.exports = function(config) {
       'public/lib/angular.js',
       'public/lib/angular-mocks.js',
       'public/lib/angular-route.min.js',
+      'public/lib/angular-jwt.js',
       'public/lib/underscore-min.js',
       {pattern: 'public/app/*.js', included: true},
       {pattern: 'public/app/**/*.js', included: true},

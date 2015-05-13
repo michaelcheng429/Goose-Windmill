@@ -29,6 +29,7 @@ angular.module('hack.authService', [])
 
   var signout = function () {
     $window.localStorage.removeItem('com.hack');
+    $window.localStorage.removeItem('hfUsers');
   };
 
 

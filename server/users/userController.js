@@ -26,7 +26,9 @@ module.exports = {
         //If it is not in use, create the user in the database
         User.prototype.createUser(params, function(err){
           if(!err){
-            response.status(200).send("Signed up");
+            var token = jwt.encode({user: username}, 'secret');
+            console.log('token: ' + token);
+            response.status(200).send({token: token});
           } else {
             response.status(400).send("Bad data");
           }
@@ -43,7 +45,9 @@ module.exports = {
     User.prototype.signin(username, password, function(err, results){
       if(!err){
         console.log('Signed in');
-        response.status(200).send(results);
+        var token = jwt.encode({user: username}, 'secret');
+        console.log('token: ' + token);
+        response.status(200).send({followers: results, token: token});
       } else {
         console.log('Sign In error');
         response.status(400).send(err);
