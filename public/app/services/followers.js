@@ -8,10 +8,16 @@
 
 angular.module('hack.followService', ['angular-jwt'])
 
-.factory('Followers',  function($http, $window, jwtHelper) {
+.factory('Followers',  function($http, $window, jwtHelper, Links) {
   var following = [];
 
   var updateFollowing = function(){
+    
+    // refresh personal stories
+    Links.getPersonalStories(following);
+    // update localStorage
+    $window.localStorage.setItem('hfUsers', following);
+
     var token = $window.localStorage.getItem('com.hack');
     var user;
     if (!!token) {
@@ -21,7 +27,7 @@ angular.module('hack.followService', ['angular-jwt'])
     if(!!user){
       var data = {
         username: user,
-        following: localStorageUsers()
+        following: following
       };
 
       $http({
@@ -33,27 +39,23 @@ angular.module('hack.followService', ['angular-jwt'])
   };
 
   var addFollower = function(username){
-    var following = localToArr();
 
     if (following.indexOf(username) === -1) {
       following.push(username);
-      $window.localStorage.setItem('hfUsers', following);
+      // makes call to database to mirror our changes
+      updateFollowing();
     }
 
-    // makes call to database to mirror our changes
-    updateFollowing();
   };
 
   var removeFollower = function(username){
-    following = localToArr();
 
     if (following.indexOf(username) > -1) {
       following.splice(following.indexOf(username), 1);
-      $window.localStorage.setItem('hfUsers', following);
+      // makes call to database to mirror our changes
+      updateFollowing();
     }
 
-    // makes call to database to mirror our changes
-    updateFollowing();
   };
 
   var localStorageUsers = function(){
@@ -66,19 +68,24 @@ angular.module('hack.followService', ['angular-jwt'])
   // is how our controllers listen for changes and dynamically update the DOM.
   // (because you can't listen to localStorage changes)
   var localToArr = function(){
-    if(!localStorageUsers()){
-      // If the person is a new visitor, set pg and sama as the default
-      // people to follow. Kinda like Tom on MySpace. Except less creepy.
-      $window.localStorage.setItem('hfUsers', 'pg,sama');
+    // if(!localStorageUsers()){
+    //   // If the person is a new visitor, set pg and sama as the default
+    //   // people to follow. Kinda like Tom on MySpace. Except less creepy.
+    //   $window.localStorage.setItem('hfUsers', 'pg,sama');
+    // }
+    if (localStorageUsers()) {
+      var users = localStorageUsers().split(",");
+      return users;
     }
-
-    return localStorageUsers().split(',');
-    // following.splice(0, following.length);
-    // following.push.apply(following, users);
   }
 
-  var init = function(){
-    following = localToArr();
+  var init = function(saved_followers){
+    var users = saved_followers || localToArr();
+    following.splice(0, following.length);
+    following.push.apply(following, users);    
+    // refresh personal stories
+    Links.getPersonalStories(following);
+    $window.localStorage.setItem('hfUsers', following);
   };
 
   init();

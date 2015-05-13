@@ -13,7 +13,7 @@ angular.module('hack.auth', [])
         $window.localStorage.setItem('com.hack', data.token);
         $window.localStorage.setItem('hfUsers', data.followers)
 
-        Followers.init();
+        Followers.init(data.followers.split(","));
 
         $scope.loggedIn = true;
         $scope.user = {};
@@ -39,6 +39,7 @@ angular.module('hack.auth', [])
   };
 
   $scope.logout = function () {
+    Followers.init();
     Auth.signout();
     $scope.loggedIn = false;
   }

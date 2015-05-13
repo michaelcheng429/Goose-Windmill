@@ -115,7 +115,7 @@ module.exports = function(grunt) {
         ]
       },
       css: {
-        files: 'public/**/*.css',
+        files: 'public/dist/production.css',
         tasks: ['cssmin']
       }
     },

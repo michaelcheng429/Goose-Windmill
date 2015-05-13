@@ -2,6 +2,7 @@ var User = require('./userModel.js');
 var jwt = require('jwt-simple');
 
 module.exports = {
+  app: {},
   //Handles new user account generation
   signup: function(request, response, next) {
 
@@ -26,11 +27,11 @@ module.exports = {
         //If it is not in use, create the user in the database
         User.prototype.createUser(params, function(err){
           if(!err){
-            var token = jwt.encode({user: username}, 'secret');
+            var token = jwt.encode({user: username}, module.exports.app.get('jwtTokenSecret'));
             console.log('token: ' + token);
             response.status(200).send({token: token});
           } else {
-            response.status(400).send("Bad data");
+            response.status(400).send(err);
           }
         });
       }
@@ -45,7 +46,8 @@ module.exports = {
     User.prototype.signin(username, password, function(err, results){
       if(!err){
         console.log('Signed in');
-        var token = jwt.encode({user: username}, 'secret');
+        console.log(results);
+        var token = jwt.encode({user: username}, module.exports.app.get('jwtTokenSecret'));
         console.log('token: ' + token);
         response.status(200).send({followers: results, token: token});
       } else {
@@ -58,7 +60,11 @@ module.exports = {
   //Controller tells the model to update the database when the user adds or 
   //removes users from their following list
   updateFollowing: function(request, response, next) {
-    var username = request.body.username;
+    if (!request.user) {
+        console.log('Not authenticated');
+        response.status(400).send('Not authenticated');
+    }
+    var username = request.user.username;
     var following = request.body.following;
 
     User.prototype.updateFollowing(username, following, function(err, results){
