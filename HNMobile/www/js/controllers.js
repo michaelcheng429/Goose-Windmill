@@ -1,6 +1,11 @@
 angular.module('hack.controllers', [])
 
-.controller('AppCtrl', function($scope, $ionicModal, $timeout) {
+.controller('AppCtrl', function($scope, Links, Followers) {
+  $scope.users = Followers.following;
+
+  $scope.updatePersonal = function() {
+    Links.getPersonalStories($scope.users);
+  }
 })
 
 .controller('TopStoriesCtrl', function($scope, Links, Followers) {
@@ -67,6 +72,7 @@ angular.module('hack.controllers', [])
 
   $scope.unfollow = function(user){
     Followers.removeFollower(user);
+    Links.getPersonalStories($scope.users);
   };
 
   $scope.follow = function(user){
