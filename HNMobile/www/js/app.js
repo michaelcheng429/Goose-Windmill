@@ -34,11 +34,22 @@ angular.module('hack', [
     controller: 'AppCtrl'
   })
 
-  .state('app.search', {
-    url: "/search",
+  .state('app.topStories', {
+    url: "/top-stories",
     views: {
       'menuContent': {
-        templateUrl: "templates/search.html"
+        templateUrl: "templates/top-stories.html",
+        controller: 'TopStoriesCtrl'
+      }
+    }
+  })
+
+  .state('app.comments', {
+    url: "/comments/:storyId",
+    views: {
+      'menuContent': {
+        templateUrl: "templates/comments.html",
+        controller: 'CommentsCtrl'
       }
     }
   })
@@ -52,25 +63,7 @@ angular.module('hack', [
       }
     }
   })
-    .state('app.topStories', {
-      url: "/top-stories",
-      views: {
-        'menuContent': {
-          templateUrl: "templates/top-stories.html",
-          controller: 'TopStoriesCtrl'
-        }
-      }
-    })
 
-  .state('app.single', {
-    url: "/top-stories/:playlistId",
-    views: {
-      'menuContent': {
-        templateUrl: "templates/playlist.html",
-        controller: 'PlaylistCtrl'
-      }
-    }
-  });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/app/top-stories');
 })

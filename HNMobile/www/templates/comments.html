@@ -1,0 +1,24 @@
+<ion-view view-title="Comments">
+  <ion-content>
+    <div class="comment-story-title-container">
+      Comments for:
+      <div class="comment-story-title">{{comments[0].story_title}}</div>
+    </div>
+    <ion-list>
+      <ion-item ng-repeat="comment in comments">
+        {{comment.author}} commented {{comment.created_at | fromNow}}<br>
+        id: {{comment.objectID}}<br>
+        parent: {{comment.parent_id}}<br>
+        title: {{comment.story_title}}
+        <div class="comment-item" ng-bind-html="comment.comment_text | htmlsafe">
+        </div>
+      </ion-item>
+      This is the comments
+    </ion-list>
+
+    <!-- <ion-infinite-scroll
+      on-infinite="loadMore()"
+      distance="1%">
+    </ion-infinite-scroll> -->
+  </ion-content>
+</ion-view>
