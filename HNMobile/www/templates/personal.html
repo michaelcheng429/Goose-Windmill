@@ -1,5 +1,11 @@
 <ion-view view-title="Personal HN Feed">
   <ion-content>
+    <div class="following-list">
+    <h2>Following:</h2>
+    <div ng-repeat="user in currentlyFollowing">
+      {{user}} <span ng-click="unfollow(user);">x</span>
+    </div>
+    </div>
     <ion-list>
       <ion-item ng-repeat="story in stories | limitTo: index">
 

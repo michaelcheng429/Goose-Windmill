@@ -64,3 +64,9 @@ body {
   height: 8px;
   max-width: 170px;
 } 
+
+/* PERSONAL SECTION */
+
+.item .comment {
+  white-space: normal;
+}

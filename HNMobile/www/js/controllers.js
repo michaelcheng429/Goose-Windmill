@@ -76,6 +76,19 @@ angular.module('hack.controllers', [])
   
   init();
 
+  // ***** 
+
+  $scope.currentlyFollowing = Followers.following;
+
+  $scope.unfollow = function(user){
+    Followers.removeFollower(user);
+  };
+
+  $scope.follow = function(user){
+    Followers.addFollower(user);
+    $scope.newFollow = "";
+  };
+
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
