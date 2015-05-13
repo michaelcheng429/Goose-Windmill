@@ -1,6 +1,9 @@
 var bodyParser = require('body-parser');
 
 module.exports = function(app, express){
+  // secret string for token
+  app.set('jwtTokenSecret', 'PROVOLONE');
+
   //Static file locations
   app.use(express.static(__dirname + '/../../public'));
   app.use(express.static(__dirname + '/../../bower_components'));

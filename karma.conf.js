@@ -21,6 +21,7 @@ module.exports = function(config) {
       'public/lib/angular-route.min.js',
       'public/lib/angular-jwt.js',
       'public/lib/underscore-min.js',
+      'http://pc035860.github.io/angular-easyfb/angular-easyfb.min.js',
       {pattern: 'public/app/*.js', included: true},
       {pattern: 'public/app/**/*.js', included: true},
       {pattern: 'test/**/*.js', included: false}

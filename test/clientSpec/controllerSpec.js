@@ -2,6 +2,17 @@
 describe("AuthController tests", function() {
   beforeEach(module('hack'));
 
+  var following = [];
+
+  beforeEach(module({
+    Links: {
+    getPersonalStories: function(users) {
+      console.log('users: ' + users);
+      following = users;
+    }
+    }
+  }));
+
   beforeEach(inject(function($injector) {
 
     // mock out our dependencies
@@ -62,7 +73,7 @@ describe("AuthController tests", function() {
   it('should store username, token, and followers in localStorage after signin', function() {
     // create a fake JWT for auth
     var token = 'sjj232hwjhr3urw90rof';
-    var followers = ['user1', 'user2'];
+    var followers = 'user1,user2';
 
     // make a 'fake' request to the server, not really going to our server
     $httpBackend.expectPOST('/api/users/signin').respond({token: token, followers: followers});
@@ -74,8 +85,8 @@ describe("AuthController tests", function() {
   });
 
   it('should set $scope.loggedIn to false and empty localStorage after logout is called', function() {
-    var followers = ['user1', 'user2'];
-    $httpBackend.expectPOST('/api/users/signin').respond(followers);
+    var followers = 'user1,user2';
+    $httpBackend.expectPOST('/api/users/signin').respond({followers: followers});
     $scope.user = {username: 'testUser'};
     $scope.signin();
     $httpBackend.flush();
@@ -136,6 +147,9 @@ describe("PersonalController tests", function() {
       getPersonalStories: function(users) {
         following = users;
       }
+    },
+    Followers: {
+      following: ['pg', 'sama']
     }
    }));
 
@@ -147,7 +161,7 @@ describe("PersonalController tests", function() {
     $window = $injector.get('$window');
     $httpBackend = $injector.get('$httpBackend');
     Followers = $injector.get('Followers');
-    $scope = $rootScope.$new();
+    $scope = {users: ['pg', 'sama']};
 
     var $controller = $injector.get('$controller');
 

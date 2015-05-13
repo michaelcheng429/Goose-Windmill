@@ -28,6 +28,27 @@ angular.module('hack', [
     .otherwise({
       redirectTo: '/'
     });
+
+  $httpProvider.interceptors.push(['$q', '$location', '$window', function($q, $location, $window) {
+    return {
+      'request': function (config) {
+        if (config.url.indexOf('algolia') === -1) {
+          config.headers = config.headers || {};
+          if ($window.localStorage.getItem('com.hack')) {
+              config.headers.Authorization = 'Bearer ' + $window.localStorage.getItem('com.hack');
+              config.headers['x-access-token'] = $window.localStorage.getItem('com.hack');
+          }
+        }
+        return config;
+      },
+      'responseError': function(response) {
+          if(response.status === 401 || response.status === 403) {
+              $location.path('/signin');
+          }
+          return $q.reject(response);
+      }
+    };
+  }]);
 })
 
 
@@ -60,4 +81,3 @@ angular.module('hack', [
     }
   }
 });
-

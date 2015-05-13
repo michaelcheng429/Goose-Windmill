@@ -1,6 +1,6 @@
 angular.module('hack.linkService', [])
 
-.factory('Links', function($http, $interval, Followers) {
+.factory('Links', function($http, $interval) {
   var personalStories = [];
   var topStories = [];
 
@@ -59,10 +59,8 @@ angular.module('hack.linkService', [])
   };
 
   var init = function(){
-    getPersonalStories(Followers.following);
 
     $interval(function(){
-      getPersonalStories(Followers.following);
       getTopStories();
     }, 300000);
   };

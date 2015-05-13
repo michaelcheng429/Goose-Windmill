@@ -21,6 +21,7 @@ describe('followService tests', function() {
   describe('addFollower method', function () {
     beforeEach(function() {
       $window.localStorage.setItem('hfUsers', 'user1,user2');
+      Followers.init();
     });
     afterEach(function() {
       $window.localStorage.removeItem('hfUsers');
@@ -34,6 +35,7 @@ describe('followService tests', function() {
   describe('removeFollower method', function () {
     beforeEach(function() {
       $window.localStorage.setItem('hfUsers', 'user1,pinky,user2');
+      Followers.init();
     });
     afterEach(function() {
       $window.localStorage.removeItem('hfUsers');

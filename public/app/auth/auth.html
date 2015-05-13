@@ -18,6 +18,7 @@
         <!-- <span ng-show="signinForm.password.$error.required">Required</span>
         <span ng-show="signinForm.password.$error.minlength">Required</span> -->
         <button>login</button>
+        <div ng-show="badLogin">{{ badLoginMessage.data }}</div>
       </form>
     </div>
 
@@ -35,6 +36,7 @@
         <!-- <span ng-show="signupForm.password.$error.required">Required</span> -->
         <!-- <span ng-show="signupForm.password.$error.minlength">Too short</span> -->
         <button>create account</button>
+        <div ng-show="badSignup">{{ badSignupMessage.data }}</div>
       </form>
     </div>
   </div>

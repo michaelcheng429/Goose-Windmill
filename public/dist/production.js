@@ -50,10 +50,16 @@ angular.module('hack.authService', [])
 
 angular.module('hack.followService', ['angular-jwt'])
 
-.factory('Followers',  ["$http", "$window", "jwtHelper", function($http, $window, jwtHelper) {
+.factory('Followers',  ["$http", "$window", "jwtHelper", "Links", function($http, $window, jwtHelper, Links) {
   var following = [];
 
   var updateFollowing = function(){
+    
+    // refresh personal stories
+    Links.getPersonalStories(following);
+    // update localStorage
+    $window.localStorage.setItem('hfUsers', following);
+
     var token = $window.localStorage.getItem('com.hack');
     var user;
     if (!!token) {
@@ -63,7 +69,7 @@ angular.module('hack.followService', ['angular-jwt'])
     if(!!user){
       var data = {
         username: user,
-        following: localStorageUsers()
+        following: following
       };
 
       $http({
@@ -75,27 +81,23 @@ angular.module('hack.followService', ['angular-jwt'])
   };
 
   var addFollower = function(username){
-    var following = localToArr();
 
     if (following.indexOf(username) === -1) {
       following.push(username);
-      $window.localStorage.setItem('hfUsers', following);
+      // makes call to database to mirror our changes
+      updateFollowing();
     }
 
-    // makes call to database to mirror our changes
-    updateFollowing();
   };
 
   var removeFollower = function(username){
-    following = localToArr();
 
     if (following.indexOf(username) > -1) {
       following.splice(following.indexOf(username), 1);
-      $window.localStorage.setItem('hfUsers', following);
+      // makes call to database to mirror our changes
+      updateFollowing();
     }
 
-    // makes call to database to mirror our changes
-    updateFollowing();
   };
 
   var localStorageUsers = function(){
@@ -108,19 +110,24 @@ angular.module('hack.followService', ['angular-jwt'])
   // is how our controllers listen for changes and dynamically update the DOM.
   // (because you can't listen to localStorage changes)
   var localToArr = function(){
-    if(!localStorageUsers()){
-      // If the person is a new visitor, set pg and sama as the default
-      // people to follow. Kinda like Tom on MySpace. Except less creepy.
-      $window.localStorage.setItem('hfUsers', 'pg,sama');
+    // if(!localStorageUsers()){
+    //   // If the person is a new visitor, set pg and sama as the default
+    //   // people to follow. Kinda like Tom on MySpace. Except less creepy.
+    //   $window.localStorage.setItem('hfUsers', 'pg,sama');
+    // }
+    if (localStorageUsers()) {
+      var users = localStorageUsers().split(",");
+      return users;
     }
-
-    return localStorageUsers().split(',');
-    // following.splice(0, following.length);
-    // following.push.apply(following, users);
   }
 
-  var init = function(){
-    following = localToArr();
+  var init = function(saved_followers){
+    var users = saved_followers || localToArr();
+    following.splice(0, following.length);
+    following.push.apply(following, users);    
+    // refresh personal stories
+    Links.getPersonalStories(following);
+    $window.localStorage.setItem('hfUsers', following);
   };
 
   init();
@@ -136,7 +143,7 @@ angular.module('hack.followService', ['angular-jwt'])
 
 angular.module('hack.linkService', [])
 
-.factory('Links', ["$http", "$interval", "Followers", function($http, $interval, Followers) {
+.factory('Links', ["$http", "$interval", function($http, $interval) {
   var personalStories = [];
   var topStories = [];
 
@@ -195,10 +202,8 @@ angular.module('hack.linkService', [])
   };
 
   var init = function(){
-    getPersonalStories(Followers.following);
 
     $interval(function(){
-      getPersonalStories(Followers.following);
       getTopStories();
     }, 300000);
   };
@@ -223,19 +228,31 @@ angular.module('hack.auth', [])
   $scope.user = {};
   $scope.newUser = {};
   $scope.loggedIn = Auth.isAuth();
+  $scope.badLogin = false;
+  $scope.badLoginMessage = '';
+  $scope.badSignup = false;
+  $scope.badSignupMessage = '';
 
   $scope.signin = function () {
     Auth.signin($scope.user)
       .then(function (data) {
+        $scope.badLogin = false;
+        $scope.badLoginMessage = '';
+        $scope.badSignup = false;
+        $scope.badSignupMessage = '';
         $window.localStorage.setItem('com.hack', data.token);
         $window.localStorage.setItem('hfUsers', data.followers)
 
-        Followers.init();
+        Followers.init(data.followers.split(","));
 
         $scope.loggedIn = true;
         $scope.user = {};
       })
       .catch(function (error) {
+        $scope.badSignup = false;
+        $scope.badSignupMessage = '';
+        $scope.badLogin = true;
+        $scope.badLoginMessage = error;
         console.error(error);
       });
   };
@@ -245,17 +262,26 @@ angular.module('hack.auth', [])
 
     Auth.signup($scope.newUser)
       .then(function (data) {
+        $scope.badLogin = false;
+        $scope.badLoginMessage = '';
+        $scope.badSignup = false;
+        $scope.badSignupMessage = '';
         $window.localStorage.setItem('com.hack', data.token);
 
         $scope.loggedIn = true;
         $scope.newUser = {};
       })
       .catch(function (error) {
+        $scope.badLogin = false;
+        $scope.badLoginMessage = '';
+        $scope.badSignup = true;
+        $scope.badSignupMessage = error;
         console.error(error);
       });
   };
 
   $scope.logout = function () {
+    Followers.init();
     Auth.signout();
     $scope.loggedIn = false;
   }
@@ -268,11 +294,13 @@ angular.module('hack.currentlyFollowing', [])
 
   $scope.unfollow = function(user){
     Followers.removeFollower(user);
+    $scope.currentlyFollowing = Followers.following;
   };
 
   $scope.follow = function(user){
     Followers.addFollower(user);
     $scope.newFollow = "";
+    $scope.currentlyFollowing = Followers.following;
   };
 }]);
 
@@ -379,6 +407,27 @@ angular.module('hack', [
     .otherwise({
       redirectTo: '/'
     });
+
+  $httpProvider.interceptors.push(['$q', '$location', '$window', function($q, $location, $window) {
+    return {
+      'request': function (config) {
+        if (config.url.indexOf('algolia') === -1) {
+          config.headers = config.headers || {};
+          if ($window.localStorage.getItem('com.hack')) {
+              config.headers.Authorization = 'Bearer ' + $window.localStorage.getItem('com.hack');
+              config.headers['x-access-token'] = $window.localStorage.getItem('com.hack');
+          }
+        }
+        return config;
+      },
+      'responseError': function(response) {
+          if(response.status === 401 || response.status === 403) {
+              $location.path('/signin');
+          }
+          return $q.reject(response);
+      }
+    };
+  }]);
 }])
 
 
@@ -411,4 +460,3 @@ angular.module('hack', [
     }
   }
 });
-

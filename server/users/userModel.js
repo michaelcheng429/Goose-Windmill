@@ -28,21 +28,26 @@ var User = mongoose.model('users', UserSchema);
 // and a comma separated string of users that the user is following
 User.prototype.createUser = function (params, callback){
   //User password is stored as a hash/salt combination
-  bcrypt.hash(params.password, null, null, function(err, hash){
-    if(hash) {
-      var newUser = new User({
-        username: params.username,
-        hashword: hash,
-        following: params.following
-      });
-      newUser.save(function(err,results){
-        //Relay user creation success/failure back to the controller
-        callback(err, results);
-      });  
-    } else {
-      //bcrypt.hash error reporting
-      callback(err);
-    }
+  bcrypt.genSalt(10, function (err, salt) {
+    bcrypt.hash(params.password, salt, null, function(err, hash){
+      if(hash) {
+        var newUser = new User({
+          username: params.username,
+          hashword: hash,
+          following: params.following
+        });
+        if (!newUser.following) {
+          newUser.following = ['pg', 'sama'];
+        }
+        newUser.save(function(err,results){
+          //Relay user creation success/failure back to the controller
+          callback(err, results);
+        });  
+      } else {
+        //bcrypt.hash error reporting
+        callback(err);
+      }
+    });
   });
 };
 
@@ -74,10 +79,14 @@ User.prototype.updateFollowing = function (username, following, callback){
   //Find the user in the database
   //Could try to refactor to .findOneAndUpdate or .findOneAndModify
   User.findOne({username: username}, function(err, user) {
-    //Modify and save the database
-    user.following = following;
-    user.save();
-    callback(err);
+    if (err) {
+      callback(err);
+    } else if (user) {
+      //Modify and save the database
+      user.following = following;
+      user.save();
+      callback(err,user);
+    }
   });
 };
 
