@@ -22,7 +22,7 @@ module.exports = {
       if(user) {
         //Figure out a way for the client to redirect to the signup page
         //and inform the user that this username is already in use.
-        response.status(400).send('Figure this out Kenny');
+        response.status(400).send('Username already exists');
       } else {
         //If it is not in use, create the user in the database
         User.prototype.createUser(params, function(err){
