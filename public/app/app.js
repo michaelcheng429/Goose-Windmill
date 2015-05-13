@@ -8,9 +8,14 @@ angular.module('hack', [
   'hack.followService',
   'hack.tabs',
   'hack.auth',
+  'ezfb'
 ])
 
-.config(function($routeProvider, $httpProvider) {
+.config(function(ezfbProvider, $routeProvider, $httpProvider) {
+  ezfbProvider.setInitParams({
+      appId: '836420059740734'
+    });
+
   $routeProvider
     .when('/', {
       templateUrl: 'app/topStories/topStories.html',
@@ -45,6 +50,7 @@ angular.module('hack', [
     };
   }]);
 })
+
 
 .filter('fromNow', function(){
   return function(date){

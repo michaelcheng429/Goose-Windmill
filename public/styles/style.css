@@ -184,7 +184,7 @@ button {
 
 .bottom-row {
   /*color: grey;*/
-  opacity: 0.4;
+  opacity: 0.6;
   font-size: 13px;
 }
 
@@ -303,3 +303,15 @@ button {
 .story-holder a:hover {
   text-decoration: underline;
 }
+
+
+ .fb{
+    cursor: pointer;
+    font-weight:bold;
+    text-align:center;
+    text-decoration:none;
+    color:#FFF;
+    background:#3b5998;
+
+}
+.fb:hover    { background:#2f4679; }

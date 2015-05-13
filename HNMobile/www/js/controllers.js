@@ -33,15 +33,15 @@ angular.module('hack.controllers', [])
   };
 })
 
-.controller('TopStoriesCtrl', function($scope, Links) {
+.controller('TopStoriesCtrl', function($scope, Links, Followers) {
   $scope.Math = window.Math;
 
   angular.extend($scope, Links);
   $scope.stories = Links.topStories;
-  $scope.perPage = 15;
+  $scope.perPage = 5;
   $scope.index = $scope.perPage;
 
-  // $scope.currentlyFollowing = Followers.following;
+  $scope.currentlyFollowing = Followers.following;
 
   $scope.getData = function() {
     Links.getTopStories();
@@ -57,6 +57,47 @@ angular.module('hack.controllers', [])
   };
 
   $scope.getData();
+})
+
+.controller('PersonalCtrl', function($scope, Links, Followers) {
+
+  $scope.Math = window.Math;
+
+  $scope.stories = Links.personalStories;
+  $scope.users = Followers.following;
+  $scope.perPage = 3;
+  $scope.index = $scope.perPage;
+
+  var init = function(){
+    fetchUsers();
+  };
+  
+  var fetchUsers = function(){
+    Links.getPersonalStories($scope.users);
+
+    $scope.$broadcast('scroll.refreshComplete');
+  };
+  
+  init();
+
+  // ***** 
+
+  $scope.currentlyFollowing = Followers.following;
+
+  $scope.unfollow = function(user){
+    Followers.removeFollower(user);
+  };
+
+  $scope.follow = function(user){
+    Followers.addFollower(user);
+    $scope.newFollow = "";
+  };
+
+  $scope.loadMore = function() {
+    $scope.index = $scope.index + $scope.perPage;
+    $scope.$broadcast('scroll.infiniteScrollComplete');
+  }
+
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {

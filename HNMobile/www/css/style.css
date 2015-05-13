@@ -5,8 +5,13 @@ body {
 }
 
 .item .story-title {
+  white-space: normal;
   font-size: 17px;
   font-weight: bold;
+}
+
+.item .story-title-link {
+  color: #0079B2;
 }
 
 .item .story-url {
@@ -37,8 +42,18 @@ body {
   margin-top: -20px;
 }
 
-.item .story-comments {
+.item .follow-author {
   float: left;
+  background: #ECECEC;
+  font-size: 10px;
+  padding: 0 3px;
+  border: 1px solid #908D91;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.item .story-comments {
+  float: right;
   text-align: center;
   font-size: 14px;
   color: #0079B2;
@@ -50,3 +65,64 @@ body {
   height: 8px;
   max-width: 170px;
 } 
+
+/* PERSONAL SECTION */
+
+.following-list {
+  text-align: center;
+  background: #404040;
+  color: #FFF;
+  padding-top: 7px;
+  padding-bottom: 10px;
+}
+
+.following-list h2 {
+  font-size: 15px;
+  color: #FFF;
+}
+
+.following-list-users {
+  line-height: 1.6em;
+  width: 280px;
+  margin: 0 auto;
+}
+
+.following-list-user {
+  background: #FFF;
+  color: #000;
+  margin: 0 5px;
+  padding: 0 4px;
+  border-radius: 3px;
+}
+
+.user-x {
+  color: #F43B44;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.comment {
+  white-space: normal;
+  text-align: center;
+}
+
+.comment-meta {
+  font-size: 13px;
+}
+
+.comment-text {
+  text-align: left;
+  background: #EBEBEB;
+  font-size: 14px;
+  width: 300px;
+  margin: 0 auto;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  padding: 7px 10px 10px 10px;
+  border: 1px solid #A5A5A5;
+  border-radius: 6px;
+}
+
+.add-a-comment {
+  color: #0079B2;
+}

@@ -1,20 +1,13 @@
 <ion-view view-title="Hacker News Mobile">
   <ion-content>
+    <ion-refresher
+      pulling-text="Pull to refresh..."
+      on-refresh="getData()">
+    </ion-refresher>
+
     <ion-list>
-      <!-- <ion-item ng-repeat="playlist in playlists" href="#/app/playlists/{{playlist.id}}">
-        {{playlist.title}}
-      </ion-item> -->
-      <ion-item ng-repeat="story in stories | limitTo: index" href="{{story.url ? story.url : 'https://news.ycombinator.com/item?id=' + story.objectID}}">
-        <h2 class="story-title">{{story.title}}</h2>
-        <div class="story-url">{{story.url.split('/')[2]}}</div>
-        <div class="points-bar" style="width:{{Math.round(((story.points - 1) / Math.pow(((story.created_at | fromNow).split(' ')[0] + 2), 1.8)) * 1000) * .35}}px;"></div>
-        <div class="score-container">
-          {{story.points}} points | {{story.created_at | fromNow}} &rarr; Score: <span class="score">{{Math.round(((story.points - 1) / Math.pow(((story.created_at | fromNow).split(' ')[0] + 2), 1.8)) * 1000)}}</span><br>
-        </div>
-        <div class="story-author">by {{story.author}}</div>
-        <a href="https://news.ycombinator.com/item?id={{story.objectID}}" target="_top" class="story-comments">
-          {{story.num_comments ? story.num_comments + ' comments' : 'discuss'}}
-        </a>
+      <ion-item ng-repeat="story in stories | limitTo: index" style="background: ">
+        <div ng-include="'js/partials/story.html'"></div>
       </ion-item>
     </ion-list>
 
@@ -24,21 +17,3 @@
     </ion-infinite-scroll>
   </ion-content>
 </ion-view>
-
-<!-- we set the width of the points bar according to the points -->
-<!-- we call this SkidRowD3 -->
-<!-- <div class="points-bar" style="width:{{125 * story.points/400 + 2}}px;"></div>
-
-<a class="story-title" href="{{story.url ? story.url : 'https://news.ycombinator.com/item?id=' + story.objectID}}">
-  {{story.title}}
-</a>
-<span class="source-url">{{story.url.split('/')[2]}}</span>
-<div class="bottom-row">
-  <span>{{story.points}} points</span> | 
-  <button ng-show="currentlyFollowing.indexOf(story.author) === -1" ng-click="addUser(story.author)">Follow</button>
-  <a href="https://news.ycombinator.com/user?id={{story.author}}">{{ story.author}}</a> |
-  <span>{{story.created_at | fromNow}}</span> |
-  <a href="https://news.ycombinator.com/item?id={{story.objectID}}">
-    {{story.num_comments ? story.num_comments + ' comments' : 'discuss'}}
-  </a>
-</div> -->
