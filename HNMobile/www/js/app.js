@@ -43,11 +43,12 @@ angular.module('hack', [
     }
   })
 
-  .state('app.browse', {
-    url: "/browse",
+  .state('app.personal', {
+    url: "/personal",
     views: {
       'menuContent': {
-        templateUrl: "templates/browse.html"
+        templateUrl: "templates/personal.html",
+        controller: 'PersonalCtrl'
       }
     }
   })

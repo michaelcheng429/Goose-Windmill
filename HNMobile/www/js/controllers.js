@@ -33,7 +33,7 @@ angular.module('hack.controllers', [])
   };
 })
 
-.controller('TopStoriesCtrl', function($scope, Links) {
+.controller('TopStoriesCtrl', function($scope, Links, Followers) {
   $scope.Math = window.Math;
 
   angular.extend($scope, Links);
@@ -41,7 +41,7 @@ angular.module('hack.controllers', [])
   $scope.perPage = 15;
   $scope.index = $scope.perPage;
 
-  // $scope.currentlyFollowing = Followers.following;
+  $scope.currentlyFollowing = Followers.following;
 
   $scope.getData = function() {
     Links.getTopStories();
@@ -57,6 +57,25 @@ angular.module('hack.controllers', [])
   };
 
   $scope.getData();
+})
+
+.controller('PersonalCtrl', function($scope, Links, Followers) {
+
+  $scope.stories = Links.personalStories;
+  $scope.users = Followers.following;
+  $scope.perPage = 30;
+  $scope.index = $scope.perPage;
+
+  var init = function(){
+    fetchUsers();
+  };
+  
+  var fetchUsers = function(){
+    Links.getPersonalStories($scope.users);
+  };
+  
+  init();
+
 })
 
 .controller('PlaylistCtrl', function($scope, $stateParams) {
