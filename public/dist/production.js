@@ -322,11 +322,18 @@ angular.module('hack.tabs', [])
 
 angular.module('hack.topStories', [])
 
-.controller('TopStoriesController', ["$scope", "$window", "Links", "Followers", function ($scope, $window, Links, Followers) {
+.controller('TopStoriesController', ["$scope", "$window", "Links", "Followers", "ezfb", function ($scope, $window, Links, Followers, ezfb) {
   angular.extend($scope, Links);
   $scope.stories = Links.topStories;
   $scope.perPage = 30;
   $scope.index = $scope.perPage;
+
+  $scope.shareStory = function(url){
+    ezfb.ui({
+      method: 'share',
+      href: url
+      }, function(response){});
+  };
 
   $scope.currentlyFollowing = Followers.following;
 
@@ -352,9 +359,14 @@ angular.module('hack', [
   'hack.followService',
   'hack.tabs',
   'hack.auth',
+  'ezfb'
 ])
 
-.config(["$routeProvider", "$httpProvider", function($routeProvider, $httpProvider) {
+.config(["ezfbProvider", "$routeProvider", "$httpProvider", function(ezfbProvider, $routeProvider, $httpProvider) {
+  ezfbProvider.setInitParams({
+      appId: '836420059740734'
+    });
+
   $routeProvider
     .when('/', {
       templateUrl: 'app/topStories/topStories.html',
@@ -368,6 +380,7 @@ angular.module('hack', [
       redirectTo: '/'
     });
 }])
+
 
 .filter('fromNow', function(){
   return function(date){
