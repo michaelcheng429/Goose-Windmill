@@ -6,13 +6,17 @@
 // On signup, we'll send the users string in localStorage to our server
 // which wil save them to a database.
 
-angular.module('hack.followService', [])
+angular.module('hack.followService', ['angular-jwt'])
 
-.factory('Followers',  function($http, $window) {
+.factory('Followers',  function($http, $window, jwtHelper) {
   var following = [];
 
   var updateFollowing = function(){
-    var user = $window.localStorage.getItem('com.hack');
+    var token = $window.localStorage.getItem('com.hack');
+    var user;
+    if (!!token) {
+      user = jwtHelper.decodeToken(token).user;
+    }
 
     if(!!user){
       var data = {
@@ -29,12 +33,11 @@ angular.module('hack.followService', [])
   };
 
   var addFollower = function(username){
-    var localFollowing = localStorageUsers();
+    var following = localToArr();
 
-    if (!localFollowing.includes(username) && following.indexOf(username) === -1) {
-      localFollowing += ',' + username
-      $window.localStorage.setItem('hfUsers', localFollowing);
+    if (following.indexOf(username) === -1) {
       following.push(username);
+      $window.localStorage.setItem('hfUsers', following);
     }
 
     // makes call to database to mirror our changes
@@ -42,14 +45,11 @@ angular.module('hack.followService', [])
   };
 
   var removeFollower = function(username){
-    var localFollowing = localStorageUsers();
+    following = localToArr();
 
-    if (localFollowing.includes(username) && following.indexOf(username) > -1) {
+    if (following.indexOf(username) > -1) {
       following.splice(following.indexOf(username), 1);
-
-      localFollowing = localFollowing.split(',');
-      localFollowing.splice(localFollowing.indexOf(username), 1).join(',');
-      $window.localStorage.setItem('hfUsers', localFollowing);
+      $window.localStorage.setItem('hfUsers', following);
     }
 
     // makes call to database to mirror our changes
@@ -72,14 +72,13 @@ angular.module('hack.followService', [])
       $window.localStorage.setItem('hfUsers', 'pg,sama');
     }
 
-    var users = localStorageUsers().split(',');
-
-    following.splice(0, following.length);
-    following.push.apply(following, users);
+    return localStorageUsers().split(',');
+    // following.splice(0, following.length);
+    // following.push.apply(following, users);
   }
 
   var init = function(){
-    localToArr();
+    following = localToArr();
   };
 
   init();
@@ -88,6 +87,7 @@ angular.module('hack.followService', [])
     following: following,
     addFollower: addFollower,
     removeFollower: removeFollower,
-    localToArr: localToArr
+    localToArr: localToArr,
+    init: init
   }
 })

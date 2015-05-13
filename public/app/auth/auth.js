@@ -9,11 +9,11 @@ angular.module('hack.auth', [])
 
   $scope.signin = function () {
     Auth.signin($scope.user)
-      .then(function (followers) {
-        $window.localStorage.setItem('com.hack', $scope.user.username);
-        $window.localStorage.setItem('hfUsers', followers)
+      .then(function (data) {
+        $window.localStorage.setItem('com.hack', data.token);
+        $window.localStorage.setItem('hfUsers', data.followers)
 
-        Followers.localToArr();
+        Followers.init();
 
         $scope.loggedIn = true;
         $scope.user = {};
@@ -28,7 +28,7 @@ angular.module('hack.auth', [])
 
     Auth.signup($scope.newUser)
       .then(function (data) {
-        $window.localStorage.setItem('com.hack', $scope.newUser.username);
+        $window.localStorage.setItem('com.hack', data.token);
 
         $scope.loggedIn = true;
         $scope.newUser = {};

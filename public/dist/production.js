@@ -29,6 +29,7 @@ angular.module('hack.authService', [])
 
   var signout = function () {
     $window.localStorage.removeItem('com.hack');
+    $window.localStorage.removeItem('hfUsers');
   };
 
 
@@ -47,13 +48,17 @@ angular.module('hack.authService', [])
 // On signup, we'll send the users string in localStorage to our server
 // which wil save them to a database.
 
-angular.module('hack.followService', [])
+angular.module('hack.followService', ['angular-jwt'])
 
-.factory('Followers',  ["$http", "$window", function($http, $window) {
+.factory('Followers',  ["$http", "$window", "jwtHelper", function($http, $window, jwtHelper) {
   var following = [];
 
   var updateFollowing = function(){
-    var user = $window.localStorage.getItem('com.hack');
+    var token = $window.localStorage.getItem('com.hack');
+    var user;
+    if (!!token) {
+      user = jwtHelper.decodeToken(token).user;
+    }
 
     if(!!user){
       var data = {
@@ -70,12 +75,11 @@ angular.module('hack.followService', [])
   };
 
   var addFollower = function(username){
-    var localFollowing = localStorageUsers();
+    var following = localToArr();
 
-    if (!localFollowing.includes(username) && following.indexOf(username) === -1) {
-      localFollowing += ',' + username
-      $window.localStorage.setItem('hfUsers', localFollowing);
+    if (following.indexOf(username) === -1) {
       following.push(username);
+      $window.localStorage.setItem('hfUsers', following);
     }
 
     // makes call to database to mirror our changes
@@ -83,14 +87,11 @@ angular.module('hack.followService', [])
   };
 
   var removeFollower = function(username){
-    var localFollowing = localStorageUsers();
+    following = localToArr();
 
-    if (localFollowing.includes(username) && following.indexOf(username) > -1) {
+    if (following.indexOf(username) > -1) {
       following.splice(following.indexOf(username), 1);
-
-      localFollowing = localFollowing.split(',');
-      localFollowing.splice(localFollowing.indexOf(username), 1).join(',');
-      $window.localStorage.setItem('hfUsers', localFollowing);
+      $window.localStorage.setItem('hfUsers', following);
     }
 
     // makes call to database to mirror our changes
@@ -113,14 +114,13 @@ angular.module('hack.followService', [])
       $window.localStorage.setItem('hfUsers', 'pg,sama');
     }
 
-    var users = localStorageUsers().split(',');
-
-    following.splice(0, following.length);
-    following.push.apply(following, users);
+    return localStorageUsers().split(',');
+    // following.splice(0, following.length);
+    // following.push.apply(following, users);
   }
 
   var init = function(){
-    localToArr();
+    following = localToArr();
   };
 
   init();
@@ -129,7 +129,8 @@ angular.module('hack.followService', [])
     following: following,
     addFollower: addFollower,
     removeFollower: removeFollower,
-    localToArr: localToArr
+    localToArr: localToArr,
+    init: init
   }
 }])
 
@@ -225,11 +226,11 @@ angular.module('hack.auth', [])
 
   $scope.signin = function () {
     Auth.signin($scope.user)
-      .then(function (followers) {
-        $window.localStorage.setItem('com.hack', $scope.user.username);
-        $window.localStorage.setItem('hfUsers', followers)
+      .then(function (data) {
+        $window.localStorage.setItem('com.hack', data.token);
+        $window.localStorage.setItem('hfUsers', data.followers)
 
-        Followers.localToArr();
+        Followers.init();
 
         $scope.loggedIn = true;
         $scope.user = {};
@@ -244,7 +245,7 @@ angular.module('hack.auth', [])
 
     Auth.signup($scope.newUser)
       .then(function (data) {
-        $window.localStorage.setItem('com.hack', $scope.newUser.username);
+        $window.localStorage.setItem('com.hack', data.token);
 
         $scope.loggedIn = true;
         $scope.newUser = {};
@@ -342,6 +343,7 @@ angular.module('hack.topStories', [])
 
 
 angular.module('hack', [
+  'ngRoute',
   'hack.topStories',
   'hack.personal',
   'hack.currentlyFollowing',
@@ -350,7 +352,6 @@ angular.module('hack', [
   'hack.followService',
   'hack.tabs',
   'hack.auth',
-  'ngRoute'
 ])
 
 .config(["$routeProvider", "$httpProvider", function($routeProvider, $httpProvider) {

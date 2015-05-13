@@ -52,6 +52,27 @@ module.exports = function(grunt) {
       }
     },
 
+    bowercopy: {
+      options: {
+        srcPrefix: 'bower_components'
+      },
+      scripts: {
+        options: {
+          destPrefix: 'public/lib'
+        },
+        files: {
+          'angular.js': 'angular/angular.js',
+          'angular.min.js': 'angular/angular.min.js',
+          'angular-mocks.js': 'angular-mocks/angular-mocks.js',
+          'angular-route.js': 'angular-route/angular-route.js',
+          'angular-route.min.js': 'angular-route/angular-route.min.js',
+          'underscore-min.js': 'underscore/underscore-min.js',
+          'angular-jwt.js': 'angular-jwt/dist/angular-jwt.js',
+          'angular-jwt.min.js': 'angular-jwt/dist/angular-jwt.min.js',
+        }
+      }
+    },
+
     // this task needs to be run after concat (and before uglify) is called on any angular files, 
     ngAnnotate: {
         options: {
@@ -141,6 +162,7 @@ module.exports = function(grunt) {
    grunt.loadNpmTasks('grunt-services');
    grunt.loadNpmTasks('grunt-open');
    grunt.loadNpmTasks('grunt-karma');
+   grunt.loadNpmTasks('grunt-bowercopy');
 
    //To run this function, call the task gitFunctions and pass in the name of the branch that 
    // will be pushed up to github
@@ -176,12 +198,14 @@ module.exports = function(grunt) {
    //call this task to start the mongo server and the node server
    grunt.registerTask('startApp', [
      'start',
+     'build',
      'server',
    ]);
 
    //call this task before something is pushed to github
    grunt.registerTask('build', [
      'jshint',
+     'bowercopy',
      'concat',
      'ngAnnotate',
      'uglify',
