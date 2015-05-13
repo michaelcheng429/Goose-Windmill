@@ -32,7 +32,6 @@ angular.module('hack.linkService', [])
       url: query
     })
     .then(function(resp) {
-      console.log(resp.data);
       angular.forEach(resp.data.hits, function(item){
         // HN Comments don't have a title. So flag them as a comment.
         // This will come in handy when we decide how to render each item.

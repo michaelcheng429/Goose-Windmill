@@ -38,15 +38,13 @@ angular.module('hack.controllers', [])
 
   angular.extend($scope, Links);
   $scope.stories = Links.topStories;
-  $scope.perPage = 15;
+  $scope.perPage = 5;
   $scope.index = $scope.perPage;
 
   $scope.currentlyFollowing = Followers.following;
 
   $scope.getData = function() {
     Links.getTopStories();
-
-    $scope.$broadcast('scroll.refreshComplete');
   };
   
   $scope.addUser = function(username) {
@@ -67,7 +65,7 @@ angular.module('hack.controllers', [])
 
   $scope.stories = Links.personalStories;
   $scope.users = Followers.following;
-  $scope.perPage = 30;
+  $scope.perPage = 3;
   $scope.index = $scope.perPage;
 
   var init = function(){
@@ -76,6 +74,8 @@ angular.module('hack.controllers', [])
   
   var fetchUsers = function(){
     Links.getPersonalStories($scope.users);
+
+    $scope.$broadcast('scroll.refreshComplete');
   };
   
   init();
@@ -92,6 +92,11 @@ angular.module('hack.controllers', [])
     Followers.addFollower(user);
     $scope.newFollow = "";
   };
+
+  $scope.loadMore = function() {
+    $scope.index = $scope.index + $scope.perPage;
+    $scope.$broadcast('scroll.infiniteScrollComplete');
+  }
 
 })
 
