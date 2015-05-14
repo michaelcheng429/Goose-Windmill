@@ -5,7 +5,12 @@ angular.module('hack.controllers', [])
 
   $scope.updatePersonal = function() {
     Links.getPersonalStories($scope.users);
-  }
+  };
+
+  $scope.openUrl = function(url) {
+    window.open(url, 'system', 'location=yes');
+    return false;
+  };
 })
 
 .controller('TopStoriesCtrl', function($scope, Links, Followers) {
