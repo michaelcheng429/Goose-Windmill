@@ -107,7 +107,6 @@ body {
 }
 
 .comment {
-  white-space: normal;
   text-align: center;
   background: #FFF;
   font-size: 14px;
@@ -121,7 +120,14 @@ body {
 }
 
 .comment-text {
+  white-space: normal;
+  color: #7F7F7F;
   text-align: left;
+}
+
+.comment-text p {
+  white-space: normal;
+  color: #424242;
 }
 
 .add-a-comment {
