@@ -44,7 +44,6 @@ angular.module('hack.controllers', [])
 
   $scope.loadComments = function(storyID) {
     Links.getComments(storyID);
-    console.log(Links.comments);
   };
 
   $scope.getData();
@@ -97,6 +96,18 @@ angular.module('hack.controllers', [])
   $scope.index = $scope.perPage;
 
   $scope.comments = Links.comments;
+
+  $scope.openStory = function(url, storyId) {
+    var link = url ? url : 'https://news.ycombinator.com/item?id=' + storyId;
+    window.open(link, '_blank', 'location=yes');
+    return false;
+  };
+
+  $scope.openComments = function(storyId) {
+    var link = 'https://news.ycombinator.com/item?id=' + storyId;
+    window.open(link, '_blank', 'location=yes');
+    return false;
+  };
 
   $scope.loadMore = function() {
     $scope.index = $scope.index + $scope.perPage;
