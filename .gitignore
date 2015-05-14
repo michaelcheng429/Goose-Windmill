@@ -10,6 +10,8 @@ public/dist/
 build/
 
 .idea
+.idea/
+.iml
 #Floobits
 .floo
-.flooignore
+.flooignore 
