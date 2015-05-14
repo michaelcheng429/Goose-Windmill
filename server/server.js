@@ -9,13 +9,13 @@ var uristring =
   process.env.MONGOHQ_URL || 
   'mongodb://localhost/hfPersonal';
 
-mongoose.connect(uristring, {}, function (err, res) {
-  if (err) { 
-    console.log ('ERROR connecting to: ' + uristring + '. ' + err);
-  } else {
-    console.log ('Succeeded connected to: ' + uristring);
-  }
-});
+// mongoose.connect(uristring, {}, function (err, res) {
+//   if (err) { 
+//     console.log ('ERROR connecting to: ' + uristring + '. ' + err);
+//   } else {
+//     console.log ('Succeeded connected to: ' + uristring);
+//   }
+// });
 
 require('./config/middleware.js')(app, express);
 
