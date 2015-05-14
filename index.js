@@ -1,5 +1,5 @@
 var app = require('./server/server.js');
-var port = process.env.HACKFEED_PORT || 3000;
+var port = process.env./*HACKFEED_*/PORT || 3000;
 
 app.listen(port);
 
