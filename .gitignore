@@ -9,7 +9,7 @@ public/dist/
 
 build/
 
-
+.idea
 #Floobits
 .floo
 .flooignore
