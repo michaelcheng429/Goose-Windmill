@@ -44,7 +44,6 @@ angular.module('hack.controllers', [])
 
   $scope.loadComments = function(storyID) {
     Links.getComments(storyID);
-    console.log(Links.comments);
   };
 
   $scope.getData();
