@@ -16,6 +16,7 @@
       <ion-item ng-repeat="comment in comments | limitTo: index">
         <div class="comment">
           <div class="comment-meta">{{comment.author}} commented {{comment.created_at | fromNow}}</div>
+          parent: {{comment.parent_id}}, comment: {{comment.objectID}}
           <div class="comment-text" ng-bind-html="comment.comment_text | htmlsafe">
           </div>
 

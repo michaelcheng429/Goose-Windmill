@@ -58,7 +58,8 @@ angular.module('hack.linkService', [])
     })
     .then(function(resp) {
 
-      console.log(resp.data)
+      // var commentsTree = sortComments(resp.data.hits);
+      // console.log(comments);
       // Very important to not point comments to a new array.
       // Instead, clear out the array, then push all the new
       // datum in place. There are pointers pointing to this array.
@@ -75,6 +76,61 @@ angular.module('hack.linkService', [])
     }
 
     return holder.join(',');
+  };
+
+  var Tree = function(value) {
+    this.value = value;
+    this.children = [];
+  };
+
+  Tree.prototype.addChild = function(value) {
+    this.children.push(new Tree(value));
+  };
+
+  var sortComments = function(commentsArray) {
+    var count = 0;
+    var commentTree = new Tree(commentsArray[0].story_id);
+
+    console.log(commentsArray.length);
+
+    commentsArray.forEach(function(item, i) {
+      if (item.parent_id === commentTree.value) {
+        commentTree.addChild(item);
+        count++
+      }
+    });
+
+    console.log(count);
+
+    var subRoutine = function(node) {
+      if (count === commentsArray.length) {
+        return;
+      }
+
+      node.children.forEach(function(parent) {
+        commentsArray.forEach(function(child, i) {
+
+          if (child.parent_id === parseInt(parent.value.objectID)) {
+
+              parent.addChild(child);
+              count++;
+
+          }
+        });
+      });
+
+      if (node.children[0]) {
+        node.children.forEach(function(childNode) {
+          subRoutine(childNode)
+        });
+      }
+    };
+
+    subRoutine(commentTree);
+    return commentTree;
+
+    console.log(count);
+
   };
 
   var init = function(){
