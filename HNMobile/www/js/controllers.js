@@ -98,6 +98,18 @@ angular.module('hack.controllers', [])
 
   $scope.comments = Links.comments;
 
+  $scope.openStory = function(url, storyId) {
+    var link = url ? url : 'https://news.ycombinator.com/item?id=' + storyId;
+    window.open(link, '_blank', 'location=yes');
+    return false;
+  };
+
+  $scope.openComments = function(storyId) {
+    var link = 'https://news.ycombinator.com/item?id=' + storyId;
+    window.open(link, '_blank', 'location=yes');
+    return false;
+  };
+
   $scope.loadMore = function() {
     $scope.index = $scope.index + $scope.perPage;
     $scope.$broadcast('scroll.infiniteScrollComplete');

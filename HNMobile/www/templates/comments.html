@@ -3,8 +3,14 @@
     <div class="comment-story-title-container">
       Comments for:
       <div class="comment-story-title">{{comments[0].story_title}}</div>
-      <a href="{{comment.story_url}}" class="comments-link">{{comments[0].story_url.split('/')[2]}}</a><br>
-      <a href="https://news.ycombinator.com/item?id={{comments[0].story_id}}" class="comments-link">Comments page</a>
+      <!-- <a href="{{comment.story_url}}" class="comments-link"> -->
+      <a class="comments-link" ng-click="openStory(comments[0].story_url, comments[0].story_id)">
+        {{comments[0].story_url.split('/')[2]}}
+      </a><br>
+      <!-- <a href="https://news.ycombinator.com/item?id={{comments[0].story_id}}" class="comments-link"> -->
+      <a class="comments-link" ng-click="openComments(comments[0].story_id)">
+        Comments page
+      </a>
     </div>
     <ion-list>
       <ion-item ng-repeat="comment in comments | limitTo: index">
