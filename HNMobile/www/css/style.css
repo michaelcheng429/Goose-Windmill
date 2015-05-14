@@ -146,3 +146,9 @@ body {
   color: #0079B2;
   font-size: 13px;
 }
+
+/* ABOUT */
+
+.about-info {
+  white-space: normal;
+}
