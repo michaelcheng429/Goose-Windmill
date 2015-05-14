@@ -24,6 +24,17 @@ module.exports = function(grunt) {
       }
     },
 
+    express: {
+      options: {
+
+      },
+      dev: {
+        options: {
+          script: 'index.js'
+        }
+      }
+    },
+
     uglify: {
       build: {
         src:  'public/dist/production.js',
@@ -100,6 +111,17 @@ module.exports = function(grunt) {
       }
     },
 
+    protractor: {
+      options: {
+        configFile: "protractor_conf.js",
+        keepAlive: true,
+        noColor: false,
+      },
+      e2e: {
+        keepAlive: false
+      }
+    },
+
     watch: {
       scripts: {
         files: [
@@ -163,6 +185,8 @@ module.exports = function(grunt) {
    grunt.loadNpmTasks('grunt-open');
    grunt.loadNpmTasks('grunt-karma');
    grunt.loadNpmTasks('grunt-bowercopy');
+   grunt.loadNpmTasks('grunt-protractor-runner');
+   grunt.loadNpmTasks('grunt-express-server');
 
    //To run this function, call the task gitFunctions and pass in the name of the branch that 
    // will be pushed up to github
@@ -199,8 +223,11 @@ module.exports = function(grunt) {
    grunt.registerTask('startApp', [
      'start',
      'build',
-     'server',
+     'server'
    ]);
+
+   // Starts server, runs protractor test, closes server
+   grunt.registerTask('e2eTest', ['express:dev', 'protractor:e2e']);
 
    //call this task before something is pushed to github
    grunt.registerTask('build', [
