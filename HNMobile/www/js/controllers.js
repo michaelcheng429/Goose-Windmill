@@ -28,7 +28,8 @@ angular.module('hack.controllers', [])
 
   $scope.getData = function() {
     Links.getTopStories();
-    $scope.$broadcast('scroll.refreshComplete');
+    $scope.perPage = 5;
+    $scope.index = $scope.perPage;
     $scope.$broadcast('scroll.refreshComplete');
   };
   
@@ -69,6 +70,9 @@ angular.module('hack.controllers', [])
   
   var fetchUsers = function(){
     Links.getPersonalStories($scope.users);
+
+    $scope.perPage = 3;
+    $scope.index = $scope.perPage;
 
     $scope.$broadcast('scroll.refreshComplete');
   };
@@ -136,6 +140,10 @@ angular.module('hack.controllers', [])
 
   $scope.getData = function() {
     Links.getTopStories();
+
+    $scope.perPage = 5;
+    $scope.index = $scope.perPage;
+
     $scope.$broadcast('scroll.refreshComplete');
   };
   
@@ -178,6 +186,10 @@ angular.module('hack.controllers', [])
 
   $scope.getData = function() {
     Links.getTopStories();
+
+    $scope.perPage = 5;
+    $scope.index = $scope.perPage;
+
     $scope.$broadcast('scroll.refreshComplete');
   };
   
@@ -220,6 +232,10 @@ angular.module('hack.controllers', [])
 
   $scope.getData = function() {
     Links.getTopStories();
+
+    $scope.perPage = 5;
+    $scope.index = $scope.perPage;
+    
     $scope.$broadcast('scroll.refreshComplete');
   };
   
