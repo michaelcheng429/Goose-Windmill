@@ -25,7 +25,7 @@ angular.module('hack.graphService', [])
       }
       storyData = data;
       buildTree(storyData, 0, 0);
-      drawGraph();
+      drawGraph(storyId);
       s.graph.nodes(storyData.id).size = maxNodeSize+1;
       s.refresh();
     });
@@ -78,13 +78,7 @@ angular.module('hack.graphService', [])
       curNode.x = radius * Math.cos(Math.PI/180 * angle);
       curNode.y = radius * Math.sin(Math.PI/180 * angle);
     }
-    // curNode.x = (level * 10) + (6*Math.random() - 3);
-    // if (level in levels) {
-    //   levels[level]++;
-    // } else {
-    //   levels[level] = 0;
-    // }
-    // curNode.y = levels[level];
+
     g.nodes.push(curNode);
     if (treeNode.parent_id) {
       curEdge.id = treeNode.parent_id + "-" + treeNode.id;
@@ -107,10 +101,10 @@ angular.module('hack.graphService', [])
     return count;
   };
 
-  var drawGraph = function () {
+  var drawGraph = function (storyId) {
     s = new sigma({
       graph: g,
-      container: 'sigma-container'
+      container: 'sigma-container-' + storyId
     });
 
     s.refresh();

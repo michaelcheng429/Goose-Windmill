@@ -5,6 +5,7 @@ angular.module('hack.topStories', [])
   $scope.stories = Links.topStories;
   $scope.perPage = 30;
   $scope.index = $scope.perPage;
+  $scope.currentGraphedStory;
 
   $scope.shareStory = function(url){
     ezfb.ui({
@@ -15,6 +16,7 @@ angular.module('hack.topStories', [])
 
   $scope.graphStory = function(storyId){
     Graph.makeGraph(storyId);
+    $scope.currentGraphedStory = storyId;
   };
 
   $scope.currentlyFollowing = Followers.following;
