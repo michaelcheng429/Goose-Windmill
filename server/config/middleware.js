@@ -19,9 +19,13 @@ module.exports = function(app, express){
   var cacheRouter = express.Router();
   require('../cache/cacheRoutes.js')(app, cacheRouter);
   
+  var graphRouter = express.Router();
+  require('../graph/graphRoutes.js')(app, graphRouter);
+  
   //Establish routes
   app.use('/api/users', userRouter);
   app.use('/api/cache', cacheRouter); 
+  app.use('/api/graph', graphRouter); 
 };
 
 

@@ -11,6 +11,7 @@
   <button ng-show="currentlyFollowing.indexOf(story.author) === -1" ng-click="addUser(story.author)">Follow</button>
   <button class="fb" ng-click="shareStory(story.url)">Share</button>
   <a href="https://twitter.com/intent/tweet?url={{story.url}}"><button class="fb">Tweet</button></a>
+  <button class="graph" ng-click="graphStory(story.objectID)">Graph</button>
   <a href="https://news.ycombinator.com/user?id={{story.author}}">{{ story.author}}</a> 
   <span>{{story.created_at | fromNow}}</span> 
   <a href="https://news.ycombinator.com/item?id={{story.objectID}}">
@@ -18,4 +19,5 @@
   </a>
 
 </div>
+<div class="sigma-container" ng-show="currentGraphedStory === story.objectID" id="sigma-container-{{story.objectID}}"></div>
 

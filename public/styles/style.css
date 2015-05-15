@@ -135,6 +135,11 @@ button {
   margin: 0;
 }
 
+.sigma-container {
+  width: 500px;
+  height: 400px;
+}
+
 .feed {
   float: left;
   margin-left: 545px;
@@ -315,3 +320,15 @@ button {
 
 }
 .fb:hover    { background:#2f4679; }
+
+
+ .graph{
+    cursor: pointer;
+    font-weight:bold;
+    text-align:center;
+    text-decoration:none;
+    color:#FFF;
+    background:#854B98;
+
+}
+.graph:hover    { background:#793F78; }
