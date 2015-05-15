@@ -77,6 +77,8 @@ module.exports = function(grunt) {
           'angular-mocks.js': 'angular-mocks/angular-mocks.js',
           'angular-route.js': 'angular-route/angular-route.js',
           'angular-route.min.js': 'angular-route/angular-route.min.js',
+          'angular-ui-router.js': 'angular-ui-router/release/angular-ui-router.js',
+          'angular-ui-router.min.js': 'angular-ui-router/release/angular-ui-router.js',
           'underscore-min.js': 'underscore/underscore-min.js',
           'angular-jwt.js': 'angular-jwt/dist/angular-jwt.js',
           'angular-jwt.min.js': 'angular-jwt/dist/angular-jwt.min.js',

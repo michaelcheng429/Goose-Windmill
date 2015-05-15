@@ -3,6 +3,7 @@ angular.module('hack.topStories', [])
 .controller('TopStoriesController', function ($scope, $window, Links, Followers, ezfb) {
   angular.extend($scope, Links);
   $scope.stories = Links.topStories;
+  console.log($scope.stories);
   $scope.perPage = 30;
   $scope.index = $scope.perPage;
 

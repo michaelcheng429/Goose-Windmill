@@ -16,14 +16,14 @@
       <div ng-include="'app/currentlyFollowing/currentlyFollowing.html'"></div>
       <div ng-include="'app/auth/auth.html'"></div>
     </div>
-
    <!--  the ng-view directive is where our templates will be loaded into when navigated to -->
     <div class="feed">
-      <div ng-view></div>
+      <div ui-view></div>
     </div>
 
     <script type="text/javascript" async src="//platform.twitter.com/widgets.js"></script>
     <script src="lib/angular.js"></script>
+    <script src="lib/angular-ui-router.min.js"></script>
     <script src="lib/angular-route.min.js"></script>
     <script src="lib/angular-mocks.js"></script>
     <script src="lib/angular-jwt.js"></script>

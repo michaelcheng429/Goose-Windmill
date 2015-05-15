@@ -19,6 +19,8 @@ module.exports = function(config) {
       'public/lib/angular.js',
       'public/lib/angular-mocks.js',
       'public/lib/angular-route.min.js',
+      'public/lib/angular-ui-router.js',
+      'public/lib/angular-ui-router.min.js',
       'public/lib/angular-jwt.js',
       'public/lib/underscore-min.js',
       'http://pc035860.github.io/angular-easyfb/angular-easyfb.min.js',
