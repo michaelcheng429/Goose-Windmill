@@ -1,5 +1,5 @@
 angular.module('hack', [
-  'ngRoute',
+  'ui.router',
   'hack.topStories',
   'hack.personal',
   'hack.currentlyFollowing',
@@ -11,26 +11,32 @@ angular.module('hack', [
   'hack.auth',
   'ezfb'
 ])
-
-.config(function(ezfbProvider, $routeProvider, $httpProvider) {
+.config(function(ezfbProvider, $stateProvider, $urlRouterProvider,$httpProvider) {
   ezfbProvider.setInitParams({
       appId: '836420059740734'
     });
+    $urlRouterProvider.otherwise('/');
 
-  $routeProvider
-    .when('/', {
-      templateUrl: 'app/topStories/topStories.html',
-      controller: 'TopStoriesController'
-    })
-    .when('/personal', {
-      templateUrl: 'app/personal/personal.html',
+    $stateProvider
+
+    .state('/personal', {
+      url: "/personal",
+      templateUrl: "app/personal/personal.html",
       controller: 'PersonalController'
     })
-    .otherwise({
-      redirectTo: '/'
+    .state('/topStories', {
+      url: "/topStories",
+      templateUrl: "app/topStories/topStories.html",
+      controller: 'TopStoriesController'
+    })
+    .state('/', {
+      url: "/",
+      templateUrl: "app/topStories/topStories.html",
+      controller: 'TopStoriesController'
     });
 
-  $httpProvider.interceptors.push(['$q', '$location', '$window', function($q, $location, $window) {
+
+        $httpProvider.interceptors.push(['$q', '$location', '$window', function($q, $location, $window) {
     return {
       'request': function (config) {
         if (config.url.indexOf('algolia') === -1) {

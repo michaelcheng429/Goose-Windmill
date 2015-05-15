@@ -5,9 +5,9 @@
     <title>Hack Feed</title>
     <link rel="stylesheet" type="text/css" href="dist/production.css" />
     <link href='http://fonts.googleapis.com/css?family=Open+Sans:600' rel='stylesheet' type='text/css'>
+    <input type="text" ng-model="searchFilter" placeholder="Search..." style = "float: right;"/>
   </head>
   <body>
-  <input type="text" ng-model="searchFilter" placeholder="Search..." align="right"/>
 
   <!-- things on the left of screen -->
     <div class="left-container">
@@ -15,14 +15,14 @@
       <div ng-include="'app/currentlyFollowing/currentlyFollowing.html'"></div>
       <div ng-include="'app/auth/auth.html'"></div>
     </div>
-
    <!--  the ng-view directive is where our templates will be loaded into when navigated to -->
     <div class="feed">
-      <div ng-view></div>
+      <div ui-view></div>
     </div>
 
     <script type="text/javascript" async src="//platform.twitter.com/widgets.js"></script>
     <script src="lib/angular.js"></script>
+    <script src="lib/angular-ui-router.min.js"></script>
     <script src="lib/angular-route.min.js"></script>
     <script src="lib/angular-mocks.js"></script>
     <script src="lib/angular-jwt.js"></script>
