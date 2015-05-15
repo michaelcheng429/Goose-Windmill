@@ -35,6 +35,9 @@ module.exports = {
     
     // Perform the firebase API request
     request(options, function(error, response, html){
+      if (error) {
+        throw (error);
+      }
       var data = JSON.parse(response.body);
       var storyOrder = data;
 
@@ -48,6 +51,9 @@ module.exports = {
       options.url = storyUrl;
 
       request(options, function(error, response, html){
+        if (error) {
+          throw (error);
+        }
         // Reorder the retrieved stories to match the hacker news front page
 
         var data = JSON.parse(response.body);
@@ -70,6 +76,6 @@ module.exports = {
         }
         console.log("Top Stories Updated");
       });
-    });
+    }).on('error', function() { console.log ('err')});
   }
 };

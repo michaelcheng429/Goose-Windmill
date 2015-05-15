@@ -6,6 +6,7 @@ angular.module('hack', [
   'hack.linkService',
   'hack.authService',
   'hack.followService',
+  'hack.graphService',
   'hack.tabs',
   'hack.auth',
   'ezfb'
